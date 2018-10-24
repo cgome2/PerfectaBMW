@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Opportunity$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>Opportunity.Pruebas_de_manejo__r$CreatedBy</field>
+    </columns>
+    <columns>
+        <field>Opportunity$Name</field>
+    </columns>
+    <columns>
+        <field>Opportunity.Pruebas_de_manejo__r$Modelo_que_manej__c</field>
+    </columns>
+    <columns>
+        <field>Opportunity.Pruebas_de_manejo__r$Conductor__c</field>
+    </columns>
+    <description>Panel CRM: Test Drive (Oportunidades)</description>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Opportunity$Sucursalv2__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Opportunity$Conversion_de_prospecto__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Opportunity$Owner</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Opportunity$PanelCRM_EsConquistaORecompra__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Panel CRM: Test Drive (Oportunidades)</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>TD__c</reportType>
+    <roleHierarchyFilter>DireccionEjecutiva</roleHierarchyFilter>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Opportunity.Pruebas_de_manejo__r$CreatedDate</dateColumn>
+        <interval>INTERVAL_THISMONTH</interval>
+    </timeFrameFilter>
+</Report>

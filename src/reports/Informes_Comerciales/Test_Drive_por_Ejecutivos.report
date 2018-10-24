@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>User.Prueba_de_manejo__c$CreatedById$Conductor__c</field>
+    </columns>
+    <columns>
+        <field>User.Prueba_de_manejo__c$CreatedById$Oportunidad__c</field>
+    </columns>
+    <columns>
+        <field>User.Prueba_de_manejo__c$CreatedById$Modelo_que_manej__c</field>
+    </columns>
+    <columns>
+        <field>User.Prueba_de_manejo__c$CreatedById$Modelo_que_manejo_usados__c</field>
+    </columns>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>User$CreatedBy</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Test Drive por Ejecutivos</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Pruebas_de_Manejo_y_Usuarios__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>User$SuAccessExpirationDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

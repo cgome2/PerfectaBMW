@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Contact$Name</field>
+    </columns>
+    <columns>
+        <field>Contact$C_dula_de_Identidad__c</field>
+    </columns>
+    <columns>
+        <field>Contact$Nombre_y_Apellido__c</field>
+    </columns>
+    <columns>
+        <field>Contact$Owner</field>
+    </columns>
+    <columns>
+        <field>Contact$MailingCity</field>
+    </columns>
+    <columns>
+        <field>Contact$MobilePhone</field>
+    </columns>
+    <columns>
+        <field>Contact$Email</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>Contact$MailingCity</column>
+            <operator>contains</operator>
+            <value>oviedo,san jose,caaguazu</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>CONTACTOS CNEL OVIEDO BPS</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Contactos__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Contact$Contacto_de_Prospecci_n__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

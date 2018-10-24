@@ -1,0 +1,57 @@
+<apex:component layout="none">
+  <apex:attribute name="singleTableData" type="UITableScorecard" description="valores single table"/>
+  
+  <apex:repeat value="{!singleTableData}" var="tbl">
+      <table>
+        <thead>
+          <tr>
+            <th class="encabezadoPrimario">OBJ</th>          
+            <th class="encabezadoPrimario" colspan="3">{!tbl.title}</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+        <apex:repeat value="{!tbl.records}" var="rec">        
+          <tr>
+            <td class="encabezadoSecundario" width="80">{!rec.labelObjetivo}</td>          
+            <td class="encabezadoSecundario" width="80">{!rec.labelLogrado}</td>
+            <td class="encabezadoSecundario" width="80">{!rec.labelConquista}</td>
+            <td class="encabezadoSecundario" width="80">{!rec.labelLealtad}</td>
+          </tr>
+        
+          <tr>
+            <td class="textoGrande">{!rec.valueObjetivo}</td>          
+            <td class="textoGrande">{!rec.valueLogrado}</td>
+            <td class="textoGrande">{!rec.valueConquista}</td>
+            <td class="textoGrande">{!rec.valueLealtad}</td>
+          </tr>
+
+          <tr>
+            <td class="texto">
+               <apex:outputText value="{0,number, 0.0}%">
+                  <apex:param value="{!rec.valuePorcentajeObjetivo}"/>
+                </apex:outputText>
+            </td>
+            <td class="texto">
+               <apex:outputText value="{0,number, 0.0}%">
+                  <apex:param value="{!rec.valuePorcentajeLogrado}"/>
+                </apex:outputText>
+            </td>
+            <td class="texto">
+               <apex:outputText value="{0,number, 0.0}%">
+                  <apex:param value="{!rec.valuePorcentajeConquista}"/>
+                </apex:outputText>
+            </td>
+            <td class="texto">
+               <apex:outputText value="{0,number, 0.0}%">
+                  <apex:param value="{!rec.valuePorcentajeLealtad}"/>
+                </apex:outputText>
+            </td>
+          </tr>
+        </apex:repeat>
+        
+        </tbody>
+      </table>
+  </apex:repeat>
+
+</apex:component>

@@ -1,0 +1,537 @@
+<apex:page showHeader="false" sidebar="false" controller="Scorecards" standardStylesheets="false" renderAs="PDF" applyHtmlTag="false">
+    <head>
+     <apex:stylesheet value="{!URLFOR($Resource.perfectaCSS, 'perfectaCSS.css')}"/>
+      <apex:includeScript value="{!$Resource.d3}"/>
+      <apex:includeScript value="{!$Resource.d3funnel}"/>
+    </head>
+    
+    <body>
+      <!-- apex:form id="main-form" -->
+         
+          <apex:outputPanel styleClass="header" layout="block">
+              <apex:outputPanel styleClass="header-text" layout="block">
+                  CRM Scorecard Salesforce 2018 <br/>
+                  BMW Group México, Latin America &amp; the Caribbean
+                  <apex:panelGrid columns="2" id="theGrid" styleClass="panel-params">
+                      <apex:outputText value="Distribuidor" id="title1" styleClass="section-title"/>
+                      <apex:outputText value="Perfecta Automotores" id="value1" styleClass="section-value"/>
+                      <apex:outputText value="Marca" id="title2" styleClass="section-title"/>
+                      <apex:outputText value="BMW" id="value2" styleClass="section-value"/>
+                      <apex:outputText value="Período" id="title3" styleClass="section-title"/>
+                      
+                      <table>
+                      <tr>
+                      <td>
+                      <apex:outputText value="2018" styleClass="section-value"/>
+                      </td>
+
+                      <td>
+                      <apex:outputText value="{!selectedMonthLabel}" styleClass="section-value"/>
+                      </td>
+                      </tr>
+                      </table>
+                      
+                      <apex:outputText value="Sucursales" id="title4" styleClass="section-title"/>
+                      <table>
+                      <tr>
+                      <td>
+
+                      <apex:outputText value="{!selectedSucursales}" styleClass="section-value"/> 
+                      </td>
+                      </tr>
+                      </table>
+
+                      <apex:outputText value="Tipos de producto" id="title5" styleClass="section-title"/>
+                      <table>
+                      <tr>
+                      <td>
+                      <apex:outputText value="{!selectedTiposProducto}" styleClass="section-value"/>
+                      </td>
+                      </tr>
+                      </table>                      
+                      
+                  </apex:panelGrid>
+              </apex:outputPanel>
+              <apex:image value="{!$Resource.images}/BMW.png" styleClass="header-image"/>
+              <apex:image value="{!$Resource.images}/Logos.png" styleClass="header-image"/>
+          </apex:outputPanel>
+
+          
+      <!------------ ventas y entregas ------------>          
+          <apex:outputPanel styleClass="content" layout="block">
+              <apex:outputPanel styleClass="content-section" layout="block" id="ventas_entregas">
+                  <apex:outputPanel styleClass="content-section-title" layout="block">
+                      Ventas &amp; Entregas
+                  </apex:outputPanel>    
+              </apex:outputPanel>
+          </apex:outputPanel>
+          
+          <!-- apex:actionFunction name="checkSucursalEvent" action="{!changeCheckBoxes}"/>
+          <apex:actionFunction name="checkTipoProductoEvent" action="{!changeCheckBoxes}"/>
+          <apex:actionFunction name="selectYearEvent" action="{!changeYear}"/>
+          <apex:actionFunction name="selectMonthEvent" action="{!changeMonth}"/ -->
+      <!-- /apex:form -->
+
+
+      <table>
+       <tr>
+      
+         <td>
+           <table class="tblVentasGeneral" id="idTblVentasGeneral">
+             <thead>
+               <tr>
+                 <th class="encabezadoPrimario">OBJ</th>
+                 <th class="encabezadoPrimario">LOG</th>        
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td class="encabezadoSecundario" width="80">Ventas</td>
+                 <td class="encabezadoSecundario" width="80">Ventas</td>            
+               </tr>
+               <tr>
+                 <td class="textoGrande">{!totalesObjetivo.ventas}</td>
+                 <td class="textoGrande">{!totalVentasLogradas}</td>
+               </tr>
+               <tr>
+                 <td class="texto">
+                   <apex:outputText value="{0,number, 0.0}%">
+                     <apex:param value="{!ventasObjetivoPorcentaje}"/>
+                   </apex:outputText>                 
+                 </td>
+                 <td class="texto">100 %</td>
+               </tr>
+             </tbody>
+           </table>
+         </td>
+         
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         
+         <td>
+           <table class="tblVentasGeneral">
+             <thead>
+               <tr>
+                 <th class="encabezadoPrimario" colspan="3">&nbsp;</th>
+               </tr>
+             </thead>               
+             <tbody>
+               <tr>
+                 <td class="encabezadoSecundario" colspan="3">Split de Ventas</td>
+               </tr>
+               <tr>
+                 <td class="textoTituloCelda" width="110">Conquista</td>
+                 <td class="textoGrande" width="80">{!totalVentasConquista}</td>
+                 <td class="texto" width="80">
+                   <apex:outputText value="{0,number, 0.0}%">
+                     <apex:param value="{!totalVentasConquistaPorcentaje}"/>
+                   </apex:outputText>                 
+                 </td>
+               </tr>
+               <tr>
+                 <td class="textoTituloCelda">Lealtad</td>
+                 <td class="textoGrande">{!totalVentasLealtad}</td>
+                 <td class="texto">
+                   <apex:outputText value="{0,number, 0.0}%">
+                     <apex:param value="{!totalVentasLealtadPorcentaje}"/>
+                   </apex:outputText>
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </td>
+
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+
+         <td>
+           <table class="tblVentasGeneral">
+             <thead>
+               <tr>
+                 <th class="encabezadoPrimario" colspan="3">&nbsp;</th>
+               </tr>
+             </thead>               
+             <tbody>
+               <tr>
+                 <td class="encabezadoSecundario" colspan="3">Ventas</td>
+               </tr>
+               <tr>
+                 <td class="textoTituloCelda" width="80">Retail</td>
+                 <td class="textoGrande" width="80">{!totalVentasRetail}</td>
+                 <td class="texto" width="80">
+                   <apex:outputText value="{0,number, 0.0}%">
+                     <apex:param value="{!totalVentasRetailPorcentaje}"/>
+                   </apex:outputText>
+                 </td>                 
+               </tr>
+               <tr>
+                 <td class="textoTituloCelda">Wholesale</td>
+                 <td class="textoGrande">{!totalVentasWholesale}</td>
+                 <td class="texto">
+                   <apex:outputText value="{0,number, 0.0}%">
+                     <apex:param value="{!totalVentasWholesalePorcentaje}"/>
+                   </apex:outputText>
+                 </td>                 
+               </tr>
+             </tbody>
+           </table>
+         </td>
+
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+
+         <td>
+           <table class="tblVentasGeneral">
+             <thead>
+               <tr>
+                 <th class="encabezadoPrimario" colspan="3">&nbsp;</th>
+               </tr>
+             </thead>               
+             <tbody>
+               <tr>
+                 <td class="encabezadoSecundario" colspan="3">Ventas</td>
+               </tr>
+               <tr>
+                 <td class="textoTituloCelda" width="110">Cash</td>
+                 <td class="textoGrande" width="80">{!totalVentasCash}</td>
+                 <td class="texto" width="80">
+                   <apex:outputText value="{0,number, 0.0}%">
+                     <apex:param value="{!totalVentasCashPorcentaje}"/>
+                   </apex:outputText>
+                 </td>                 
+               </tr>
+               <tr>
+                 <td class="textoTituloCelda">FS</td>
+                 <td class="textoGrande">{!totalVentasFS}</td>
+                 <td class="texto">
+                   <apex:outputText value="{0,number, 0.0}%">
+                     <apex:param value="{!totalVentasFSPorcentaje}"/>
+                   </apex:outputText>
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </td>
+
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+
+         <td>
+           <table class="tblVentasGeneral">
+             <thead>
+               <tr>
+                 <th class="encabezadoPrimario" colspan="3">&nbsp;</th>
+               </tr>
+             </thead>               
+             <tbody>
+               <tr>
+                 <td class="encabezadoSecundario" width="80">Entregas</td>
+               </tr>
+               <tr>
+                 <td class="textoGrande">{!totalVentasEntrega}</td>
+               </tr>
+               <tr>
+                 <td class="texto">
+                   <apex:outputText value="{0,number, 0.0}%">
+                     <apex:param value="{!totalVentasEntregaPorcentaje}"/>
+                   </apex:outputText>
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </td>
+        
+       </tr>
+      </table>
+     
+      <!------------ prospectos depurados ------------>
+      <apex:outputPanel styleClass="content" layout="block">
+          <apex:outputPanel styleClass="content-section" layout="block" id="prospectosDepurados">
+              <apex:outputPanel styleClass="content-section-title" layout="block">
+                  Generacion / Prospectos Depurados
+              </apex:outputPanel>    
+          </apex:outputPanel>
+      </apex:outputPanel>
+
+
+      <table>
+       <tr>
+      
+         <td>
+           <table class="tblVentasGeneral" id="idTblVentasGeneral">
+             <thead>
+               <tr>
+                 <th class="encabezadoPrimario">OBJ</th>
+                 <th class="encabezadoPrimario">LOG</th>        
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td class="encabezadoSecundario" width="80">Prospectos</td>
+                 <td class="encabezadoSecundario" width="80">Prospectos</td>            
+               </tr>
+               <tr>
+                 <td class="textoGrande">{!totalObjetivoProspectos}</td>
+                 <td class="textoGrande">{!prospectosSummary.generatedRaw}</td>
+               </tr>
+               <tr>
+                 <td class="texto">
+                   <apex:outputText value="{0,number, 0.0}%">
+                     <apex:param value="{!prospectosObjetivoPorcentaje}"/>
+                   </apex:outputText>
+                 </td>
+                 <td class="texto">100 %</td>
+               </tr>
+             </tbody>
+           </table>
+         </td>
+         
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+         
+<td>
+           <table class="tblVentasGeneral">
+             <thead>
+               <tr>
+                 <th class="encabezadoPrimario" colspan="3">&nbsp;</th>
+               </tr>
+             </thead>               
+             <tbody>
+               <tr>
+                 <td class="encabezadoSecundario" colspan="3">Prospectos conquistas generados</td>
+               </tr>
+               <tr>
+                 <td class="textoTituloCelda" width="130">Retail</td>
+                 <td class="textoGrande" width="80">{!prospectosSummary.retailConq}</td>
+                 <td class="texto" width="80">
+                   <apex:outputText value="{0,number, 0.0}%">
+                     <apex:param value="{!prospectosSummary.retailConqPerc}"/>
+                   </apex:outputText>
+                 </td>                 
+               </tr>
+               <tr>
+                 <td class="textoTituloCelda">Wholesale</td>
+                 <td class="textoGrande">{!prospectosSummary.wholesaleConq}</td>
+                 <td class="texto">
+                   <apex:outputText value="{0,number, 0.0}%">
+                     <apex:param value="{!prospectosSummary.wholesaleConqPerc}"/>
+                   </apex:outputText>
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </td>
+
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+
+         <td>
+           <table class="tblVentasGeneral">
+             <thead>
+               <tr>
+                 <th class="encabezadoPrimario" colspan="3">&nbsp;</th>
+               </tr>
+             </thead>               
+             <tbody>
+               <tr>
+                 <td class="encabezadoSecundario">Período de creación</td>
+                 <td class="encabezadoSecundario">Creados</td>
+                 <td class="encabezadoSecundario">En curso</td>                                  
+               </tr>
+               <tr>
+                 <td class="textoTituloCelda" width="180">Generados</td>
+                 <td class="texto" width="80">{!prospectosSummary.generatedRaw}</td>
+                 <td class="texto" width="80">{!prospectosSummary.generatedActive}</td>                 
+               </tr>
+               <tr>
+                 <td class="textoTituloCelda">Acumulados</td>
+                 <td class="texto">{!prospectosSummary.accumRaw}</td>
+                 <td class="texto">{!prospectosSummary.accumActive}</td> 
+                 <td>
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </td>
+
+        
+       </tr>
+      </table>
+
+      <div style="page-break-before:always;"/>
+      <!------------ Cono general ventas ------------>
+      <apex:outputPanel styleClass="content" layout="block">
+          <apex:outputPanel styleClass="content-section" layout="block" id="ventasGeneral">
+              <apex:outputPanel styleClass="content-section-title" layout="block">
+                  Cono de ventas general
+              </apex:outputPanel>    
+          </apex:outputPanel>
+      </apex:outputPanel>
+
+    <div style="float:left;margin:120px;">
+    <apex:outputPanel id="conoGeneralVentas">      
+        <apex:repeat value="{!conosGeneralVentas}" var="registroUI">      
+              <!-- apex:outputText value="{!registroUI.title}"/ -->
+                  <div id="cgv{!registroUI.index}"></div>
+                  <div class="container">    
+                          <div class="top" style="height:30px;width:250px;background:#1f77b4"> 
+                              <apex:outputLabel value="{!conosGeneralVentas[0].records[0].label}: {!conosGeneralVentas[0].records[0].value}" />
+                          </div>
+                          <div class="top" style="height:30px;width: 212px;background:#ff7f0e;margin-left: 18px;"> 
+                              <apex:outputLabel value="{!conosGeneralVentas[0].records[1].label}: {!conosGeneralVentas[0].records[1].value}" />
+                          </div>
+                          <div class="top" style="height:30px;width: 175px;background:#2ca02c;margin-left: 37px;"> 
+                              <apex:outputLabel value="{!conosGeneralVentas[0].records[2].label}: {!conosGeneralVentas[0].records[2].value}" />
+                          </div>
+                          <div class="top" style="height:30px;width: 137px;background:#d62728;margin-left: 55px;"> 
+                              <apex:outputLabel value="{!conosGeneralVentas[0].records[3].label}: {!conosGeneralVentas[0].records[3].value}" />
+                          </div>
+                          <div class="top" style="height:30px;width: 104px;background:#9467bd;margin-left: 72px;"> 
+                              <apex:outputLabel value="{!conosGeneralVentas[0].records[4].label}: {!conosGeneralVentas[0].records[4].value}" />
+                          </div>
+                          <div class="top" style="height:30px;width: 81px;background:#8c564b;margin-left: 84px;"> 
+                              <apex:outputLabel value="{!conosGeneralVentas[0].records[5].label}: {!conosGeneralVentas[0].records[5].value}" />
+                          </div>
+                          <div class="top" style="height:30px;width: 72px;background:#e377c2;margin-left: 88px;"> 
+                              <apex:outputLabel value="{!conosGeneralVentas[0].records[6].label}: {!conosGeneralVentas[0].records[6].value}" />
+                          </div>
+                  </div>
+        </apex:repeat>  
+    </apex:outputPanel>
+    </div>
+
+      <div  style="float:right;margin:120px;"> 
+        <table>
+          <tr>
+            <td class="encabezadoSecundario" width="160">V. Perdidas Razones</td>
+            <td class="encabezadoSecundario" width="80">Num</td>
+            <td class="encabezadoSecundario" width="80">%</td>
+          </tr>
+         <!-- repeat    -->
+          <apex:repeat value="{!listVentasPerdidas}" var="vp">
+          <tr>
+            <td class="textoTituloCelda" width="160">{!vp.razonVentaPerdida}</td>
+            <td class="texto" width="80">{!vp.cantidad}</td>
+            <td class="texto" width="80">
+              <apex:outputText value="{0,number, 0.0}%">
+                 <apex:param value="{!vp.porcentaje}"/>
+              </apex:outputText>
+            </td>
+          </tr>
+          </apex:repeat>
+          <tr>
+            <td class="textoTituloCelda" width="160">TOTAL</td>
+            <td class="textoGrande" width="80">{!totalVentasPerdidas}</td>
+            <td class="texto" width="80">100%</td>
+          </tr>
+
+        </table>
+      </div>
+
+
+
+
+      <div style="page-break-before:always;"/>
+      <!------------ ventas fuente origen ------------>
+      <apex:outputPanel styleClass="content" layout="block">
+          <apex:outputPanel styleClass="content-section" layout="block" id="ventasFuenteOrigen">
+              <apex:outputPanel styleClass="content-section-title" layout="block">
+                  Cono de ventas (fuentes/origen)
+              </apex:outputPanel>    
+          </apex:outputPanel>
+      </apex:outputPanel>
+            
+      <c:scorecardSingleTablaGrid numColumnas="3" listTablas="{!conjuntoTablasVentasFuente}"/>
+      
+      <div style="page-break-before:always;"/>
+      <!------------ Conos de ventas por ejecutivo ------------>
+      <apex:outputPanel styleClass="content" layout="block">
+          <apex:outputPanel styleClass="content-section" layout="block" id="ventasPorEjecutivo">
+              <apex:outputPanel styleClass="content-section-title" layout="block">
+                  Cono de ventas (x Ejecutivo)
+              </apex:outputPanel>    
+          </apex:outputPanel>
+      </apex:outputPanel>
+      
+      <br/>
+
+      <c:scorecardTablaGrid numColumnas="3" listTablas="{!conjuntoTablas}"/>
+      
+      <div style="page-break-before:always;"/>
+      <!------------ Campania ------------>      
+      <apex:outputPanel styleClass="content" layout="block">
+          <apex:outputPanel styleClass="content-section" layout="block" id="leadPlanningEjecutivo">
+              <apex:outputPanel styleClass="content-section-title" layout="block">
+                  Campañas
+              </apex:outputPanel>    
+          </apex:outputPanel>
+      </apex:outputPanel>
+
+      <c:scorecardCampaignTablaGrid numColumnas="3" listTablas="{!conjuntoTablasCampanias}"/>
+
+      <script>
+         const options = {
+             block: {
+                 dynamicHeight: true,
+                 minHeight: 15,
+             },
+          
+             tooltip: {
+                 enabled: true
+             },
+         };
+
+         var result;
+         var data;
+         var dataF;         
+         var dataArray;
+         var dataArrayDos;
+
+         function drawFigure(arrayData, drawOptions, elementToDisplay)
+         {
+            var chart = new D3Funnel(elementToDisplay);
+            chart.draw(arrayData, drawOptions);
+            return 0;
+         }
+         
+         function drawSetFigures(arrayData, drawOptions, elementToDisplay)
+         {
+            var i;
+            for(i = 1; i <= arrayData.length; i++ )
+            {
+               drawFigure(arrayData[i-1], drawOptions, elementToDisplay + i);
+            }
+            
+            return 0;
+         }
+
+
+         /** cono general ventas ********************/
+         dataArray = new Array();
+         
+         
+        <apex:repeat value="{!conosGeneralVentas}" var="registroUI">               
+            data = [      
+           <apex:repeat value="{!registroUI.records}" var="record">         
+               { label: '<apex:outputText value="{!record.label}"/>', value: '<apex:outputText value="{!record.value}"/>' },
+           </apex:repeat>
+            ];
+         dataArray.push(data);
+        </apex:repeat>
+      
+         result = drawSetFigures(dataArray, options, '#cgv'); 
+
+      </script>
+
+      <script>
+        var timer;
+        function setTimer(callback) {
+          if(timer) clearTimeout(timer);
+          timer = setTimeout(callback, 500);
+        }
+      </script>
+
+            
+    </body>
+
+</apex:page>

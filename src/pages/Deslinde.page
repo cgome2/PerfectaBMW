@@ -1,0 +1,72 @@
+<apex:page showHeader="false" standardController="Account" renderAs="pdf" applyBodyTag="false">
+    <head>
+        <style>
+        @page {
+            size: A4;
+            margin: 8mm;
+            page-break-after: right;
+        @top-center {
+            content: "";
+         }
+
+        }
+        div.Ending {
+           page-break-after: always;
+        }
+            body { font-family: 'Arial Unicode MS'; }
+            .companyName { font: bold 30px; color: black; }
+            .fecha { text-align:right; } 
+            .justo { overflow: hidden; text-align: justify;  page-break-after: right }
+        </style>
+    </head>
+    <body>
+        <center>
+        <h1>
+        <apex:panelGrid columns="2" width="100%">
+            <apex:outputText value="Perfecta Automotores S.A." styleClass="companyName"/>
+            <apex:image value="{!$Resource.Logo}" width="100" height="100" styleClass="fecha"/> 
+        
+            <apex:outputText />
+            <apex:outputText value="Asunción, {!DAY(TODAY())} de {!CASE(MONTH(TODAY()), 1, "Enero", 2, "Febrero", 3, "Marzo",  4, "Abril",  5, "Mayo",  6, "Junio", 7, "Julio", 8, "Agosto", 9, "Septiembre", 10, "Octubre", 11, "Noviembre", 12, "Diciembre", "None")} de {!YEAR(TODAY())}" styleClass="fecha"/>
+        </apex:panelGrid>
+        </h1>
+        </center>
+       <apex:outputPanel styleClass="justo" layout="block">
+       <apex:dataTable value="{!Account.Contacts}" var="contact" cellPadding="4" border="1">
+            <apex:outputText value="{!contact.C_dula_de_Identidad__c}"/>
+            <apex:outputText value="{!contact.name}" />
+            <apex:outputText value="{!contact.MailingStreet}" />
+            <apex:outputText value="{!contact.Licencia_de_conducir__c}" />
+        </apex:dataTable>
+        <br></br>
+        <br></br>
+        {!Account.Contacts[0].name}, CON C.I.C. N° {!Account.Contacts[0].C_dula_de_Identidad__c}  , con domicilio en {!Account.Contacts[0].MailingStreet}, de la ciudad de {!Account.Contacts[0].MailingCity}, por la presente declaro y hago constar bajo protesta de decir verdad, que: (i) soy una persona mayor de edad, en pleno uso de mis facultades y legalmente capaz; 
+        (ii) cuento con licencia de conducir vigente Nº {!Account.Contacts[0].Licencia_de_conducir__c} a mi nombre, así como con todos 
+        los conocimientos y aptitudes requeridas para conducir los vehículos de la marca BMW, 
+        ya sean estos de transmisión manual o automática, de conformidad con todas las normas y 
+        reglas de vialidad y tránsito aplicables; ya sea como conductor, ocupante distinto 
+        del conductor o de cualquier otra manera.________________________________
+        <br></br>
+        <br></br>
+        Declaro que es mi voluntad de realizar la prueba de manejo en vehículos de la marca BMW, ya sea como conductor, ocupante distinto del conductor y/o de cualquier otra manera._____________________________________
+        <br></br>
+        <br></br>
+        En este acto, hago constar que, conozco y estoy plenamente consciente del riesgo que existe por el hecho de manejar, abordar o presenciar el manejo de vehículos señalados más arriba._____________________________________
+        <br></br>
+        <br></br>
+        Por lo tanto, me hago responsable de cualquier tipo de lesión y daños que pudiera causar tanto a mi persona como a terceras personas que circulen por las instalaciones en el marco de la presente “PRUEBA DE MANEJO” a la que estoy participando y la cual es ofrecida por la firma PERFECTA AUTOMOTORES S.A. De igual manera, soy responsable del correcto uso y manejo del vehículo que me concedan, que en caso de dañar o causar avería, responderé con mis propios bienes hasta solucionar la reparación. Asumo también la responsabilidad de respetar las leyes de tránsito, las cuales, por la presente, declaro conocer._____________________________________ 
+        <br></br>
+        <br></br>
+        En consecuencia, asumo en forma incondicional e irrevocablemente de cualquier accidente ocurrido, eximiendo de total responsabilidad a la empresa PERFECTA AUTOMOTORES S.A., como así también a sus accionistas, directores, gerentes y empleados de ella, y me comprometo a comparecer ante la justicia asumiendo toda mi responsabilidad en este presente acto. Y para que conste, lo firmo en el lugar y fecha arriba indicados para todos los efectos legales a los que haya necesidad._____________________________________
+        <br></br>
+        <br></br>
+        Atentamente,
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        _____________________________________
+        </apex:outputPanel>
+
+    </body>
+</apex:page>

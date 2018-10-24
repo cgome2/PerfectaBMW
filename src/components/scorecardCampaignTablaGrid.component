@@ -1,0 +1,20 @@
+<apex:component layout="none" controller="ComponentControllerScorecard">
+    <apex:attribute name="numColumnas" type="Integer" assignTo="{!numberColumns}" description="numero de columnas grid"/>
+    <apex:attribute name="listTablas" type="ScorecardSingleSetTable" assignTo="{!sorecardSetTables}" description="tablas"/>
+    
+    <style>
+      .single-table-cam {
+         padding: 40px;
+      }
+    </style>    
+    
+    <table>    
+    <apex:repeat value="{!rowsTable}" var="row">
+       <tr>
+         <apex:repeat value="{!row}" var="rec">
+           <td class="single-table-cam"><c:scoreCardCampaniaInfo singleTableData="{!rec}"/></td>
+         </apex:repeat>
+       </tr>
+    </apex:repeat>
+    </table>
+</apex:component>

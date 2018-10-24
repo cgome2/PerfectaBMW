@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>CUST_CREATED_NAME</field>
+    </columns>
+    <columns>
+        <field>MC4SF__MC_Campaign__c.MC4SF__Emails_Sent__c</field>
+    </columns>
+    <columns>
+        <field>MC4SF__MC_Campaign__c.MC4SF__Unique_Opens__c</field>
+    </columns>
+    <columns>
+        <field>MC4SF__MC_Campaign__c.MC4SF__Users_Who_Clicked__c</field>
+    </columns>
+    <columns>
+        <field>CUST_CREATED_DATE</field>
+    </columns>
+    <format>Tabular</format>
+    <name>CAMPANAS MAILCHIMP</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$MC4SF__MC_Campaign__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>MC4SF__MC_Campaign__c.MC4SF__Create_Time__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

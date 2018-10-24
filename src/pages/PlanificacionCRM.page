@@ -1,0 +1,344 @@
+<apex:page showHeader="true" sidebar="true" controller="PlanificacionCRM">
+<style>
+
+.tblData
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.encabezadoPrimario
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+  background-color: #3B5998;
+  color: #FFFFFF;
+  text-align: center;
+  padding:5px;
+}
+
+.encabezadoSecundario
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+  background-color: #3B5998;
+  color: #FFFFFF;
+  text-align: center;
+  vertical-align:middle !important;
+  padding:5px;
+  font-weight: bold;  
+}
+
+.texto
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+  color: #000000;
+  height:21px;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.total
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+  color: #000000;
+  font-weight: bold;
+  background-color: #D8D8D8;
+  text-align:center;
+}
+
+.textoInicio
+{
+  font-size: 15px;
+  font-weight: bold;  
+}
+
+.textoMes
+{
+  font-size: 15px;
+}
+
+.sizer{
+  width:70px;
+  text-align: center;
+}
+
+.calcRes{
+  background:#0074C2;
+}
+
+.fuente{
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+input{
+  text-align:center;
+}
+</style>
+  
+<apex:outputPanel id="masterPanel">
+    <apex:form id="plan_mensual">
+      <apex:outputPanel id="selectSucursal">
+      
+        <table>
+          <tr>
+            <td><apex:outputText styleClass="textoInicio" value="Sucursal"/></td>
+            <td>
+              <apex:selectList value="{!selectedSucursal}" size="1" onchange="selectSucursalEvent()">
+                <apex:selectOptions value="{!sucursales}"/>
+              </apex:selectList>
+            </td>
+          </tr>
+
+         <!--tr>
+           <td><apex:outputText styleClass="textoInicio" value="Año"/></td>      
+           <td>
+             <apex:actionRegion >
+               <apex:selectList value="{!selectedYear}" id="select_year" styleClass="section-value" size="1" onchange="selectYearEvent()">
+                 <apex:selectOptions value="{!yearsPeriodOpts}" />
+               </apex:selectList>
+             </apex:actionRegion>
+           </td>
+         </tr -->
+
+         <tr>
+           <td><apex:outputText styleClass="textoInicio" value="Mes"/></td>
+           <td>
+             <!-- apex:outputText styleClass="textoMes" value="{!currentStrMonth}"/ -->
+             <apex:actionRegion >
+               <apex:selectList value="{!selectedMonth}" id="select_month" styleClass="section-value" size="1" onchange="selectMonthEvent()">
+                 <apex:selectOptions value="{!monthsPeriodOpts}" />
+               </apex:selectList>
+             </apex:actionRegion>
+           </td>
+         </tr>
+
+          
+          <!-- tr>
+            <td><apex:outputText styleClass="textoInicio" value="Mes"/></td>
+            <td><apex:outputText styleClass="textoMes" value="{!currentStrMonth}"/></td>        
+          </tr -->
+        </table>
+        
+      </apex:outputPanel>
+        
+      <apex:actionFunction name="selectSucursalEvent" action="{!changeSucursal}"/>
+       <apex:actionFunction name="selectYearEvent" action="{!changeYear}"/>
+       <apex:actionFunction name="selectMonthEvent" action="{!changeMonth}"/>          
+
+      <br/>
+        <apex:panelGrid columns="3" id="theGrid">
+        <apex:actionRegion >
+          <table id="tblObjetivos" class="tblData">
+            <thead>
+              <tr>
+                <th class="encabezadoPrimario"><apex:outputText value="{!currentStrMonth}" /></th>
+                <th class="encabezadoPrimario" colspan="4">Objetivos del mes</th>        
+              </tr>
+            </thead>
+            
+            <tbody>
+              <tr>
+                <td class="encabezadoSecundario">Fuente/Origen</td>
+                <td class="encabezadoSecundario"><div class="sizer">Prospectos</div></td>            
+                <td class="encabezadoSecundario"><div class="sizer">Leads Calificados</div></td>
+                <td class="encabezadoSecundario"><div class="sizer">Test Drive</div></td>
+                <td class="encabezadoSecundario"><div class="sizer">Ventas</div></td>
+              </tr>
+            
+            <apex:repeat value="{!sourceList}" var="source">
+              <tr>
+              <td class="texto fuente" nowrap="nowrap"><apex:outputText value="{!source}"/></td>
+              <td class="texto">
+                  <apex:inputField style="width:70px;" value="{!objetivos[source].Prospectos__c}" rendered="{!canEdit}" onkeyup="setTimer('saveCumplimientoEvent()');"/>
+                  <apex:outputField style="width:70px;" value="{!objetivos[source].Prospectos__c}" rendered="{!NOT(canEdit)}" />
+              </td>
+              <td class="texto">
+                  <apex:inputField style="width:70px;" value="{!objetivos[source].Leads_Calificados__c}" rendered="{!canEdit}" onkeyup="setTimer('saveCumplimientoEvent()');"/>
+                  <apex:outputField style="width:100px;" value="{!objetivos[source].Leads_Calificados__c}" rendered="{!NOT(canEdit)}" />
+              </td>
+              <td class="texto">
+                  <apex:inputField style="width:70px;" value="{!objetivos[source].Test_Drives__c}" rendered="{!canEdit}" onkeyup="setTimer('saveCumplimientoEvent()');"/>
+                  <apex:outputField style="width:70px;" value="{!objetivos[source].Test_Drives__c}" rendered="{!NOT(canEdit)}" />
+              </td>
+              <td class="texto">
+                  <apex:inputField style="width:70px;" value="{!objetivos[source].Ventas__c}" rendered="{!canEdit}" onkeyup="setTimer('saveCumplimientoEvent()');"/>
+                  <apex:outputField style="width:70px;" value="{!objetivos[source].Ventas__c}" rendered="{!NOT(canEdit)}" />
+              </td>
+              </tr>
+            </apex:repeat>
+            </tbody>
+            
+            <tfoot>
+              <tr>
+            
+                <td class="total">TOTAL</td>
+                <td class="total">
+                <apex:outputPanel id="objetivoProspecto">
+                  <apex:outputText value="{!leadsGoalSummary}"/>
+                </apex:outputPanel>  
+                </td> 
+                <td class="total">
+                <apex:outputPanel id="objetivoLeads">
+                  <apex:outputText value="{!qualifiedLeadsGoalSummary}"/>
+                </apex:outputPanel>
+                </td>
+                <td class="total">
+                <apex:outputPanel id="objetivoTestDrives"> 
+                  <apex:outputText value="{!testDrivesGoalSummary}"/>
+                </apex:outputPanel>
+                </td>
+                <td class="total">
+                <apex:outputPanel id="objetivoVentas">
+                  <apex:outputText value="{!salesGoalSummary}"/>
+                </apex:outputPanel>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+          
+          <apex:actionFunction name="saveCumplimientoEvent" action="{!saveObjetivos}" rerender="porcentajeCumplimientoTabla, 
+                                                                                                  objetivoProspecto, 
+                                                                                                  objetivoLeads, 
+                                                                                                  objetivoTestDrives,
+                                                                                                  objetivoVentas,
+                                                                                                  cump,
+                                                                                                  cumpPorc"/>
+      </apex:actionRegion>
+      <apex:outputPanel id="cump">
+      <table id="tblCumplimiento" class="tblData">
+        <thead>
+          <tr>
+            <th class="encabezadoPrimario calcRes" colspan="4">Avance</th>        
+          </tr>
+        </thead>
+        
+        <tbody>
+          <tr>
+            <td class="encabezadoSecundario calcRes"><div class="sizer">Prospectos</div></td>            
+            <td class="encabezadoSecundario calcRes"><div class="sizer">Leads Calificados</div></td>
+            <td class="encabezadoSecundario calcRes"><div class="sizer">Test Drive</div></td>
+            <td class="encabezadoSecundario calcRes"><div class="sizer">Ventas</div></td>
+          </tr>
+        
+          <apex:repeat value="{!sourceList}" var="fIter">
+          <tr>
+            <td class="texto">
+                <apex:outputText style="width:70px;" value="{!leadsProgress[fIter]}"/>
+            </td>
+            <td class="texto">
+                <apex:outputText style="width:100px;" value="{!qualifiedLeadsProgress[fIter]}"/>
+            </td>
+            <td class="texto">
+                <apex:outputText style="width:70px;" value="{!testDrivesProgress[fIter]}"/>
+            </td>
+            <td class="texto">
+                <apex:outputText style="width:70px;" value="{!salesProgress[fIter]}"/>
+            </td>
+          </tr>
+          </apex:repeat>
+        </tbody>
+        
+        <tfoot>
+          <tr>
+            <td class="total">
+              <apex:outputText value="{!leadsProgressSummary}" />
+            </td> 
+            <td class="total">
+              <apex:outputText value="{!qualifiedLeadsProgressSummary}" />
+            </td>
+            <td class="total">
+              <apex:outputText value="{!testDrivesProgressSummary}" />
+            </td>
+            <td class="total">
+              <apex:outputText value="{!salesProgressSummary}" />
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      </apex:outputPanel>
+      <apex:outputPanel id="cumpPorc">
+      <table id="tblPorcCumplimiento" class="tblData">
+        <thead>
+          <tr>
+            <th class="encabezadoPrimario calcRes" colspan="4">Avance %</th>        
+          </tr>
+        </thead>
+        
+        <tbody>
+          <tr>
+            <td class="encabezadoSecundario calcRes"><div class="sizer">Prospectos</div></td>            
+            <td class="encabezadoSecundario calcRes"><div class="sizer">Leads Calificados</div></td>
+            <td class="encabezadoSecundario calcRes"><div class="sizer">Test Drive</div></td>
+            <td class="encabezadoSecundario calcRes"><div class="sizer">Ventas</div></td>
+          </tr>
+        
+          <apex:repeat value="{!sourceList}" var="fIter">
+          <tr>
+           <td height="21" style="text-align:center;vertical-align:middle;border: 1px solid black;border-collapse: collapse;background-color: {!IF(leadsProgressPerc[fIter] < 75, '#fec8cf', IF(leadsProgressPerc[fIter] < 100, '#feeaa0', '#c7eecf'))}">
+               <apex:outputText value="{0,number, 0.0}%">
+                   <apex:param value="{!leadsProgressPerc[fIter]}"/>
+               </apex:outputText>
+           </td>
+
+           <td height="21" style="text-align:center;vertical-align:middle;border: 1px solid black;border-collapse: collapse;background-color: {!IF(qualifiedLeadsProgressPerc[fIter] < 75, '#fec8cf', IF(qualifiedLeadsProgressPerc[fIter] < 100, '#feeaa0', '#c7eecf'))}">
+               <apex:outputText value="{0,number, 0.0}%">
+                   <apex:param value="{!qualifiedLeadsProgressPerc[fIter]}"/>
+               </apex:outputText>
+           </td>
+
+           <td height="21" style="text-align:center;vertical-align:middle;border: 1px solid black;border-collapse: collapse;background-color: {!IF(testDrivesProgressPerc[fIter] < 75, '#fec8cf', IF(testDrivesProgressPerc[fIter] < 100, '#feeaa0', '#c7eecf'))}">
+               <apex:outputText value="{0,number, 0.0}%">
+                   <apex:param value="{!testDrivesProgressPerc[fIter]}"/>
+               </apex:outputText>
+           </td>
+
+           <td height="21" style="text-align:center;vertical-align:middle;border: 1px solid black;border-collapse: collapse;background-color: {!IF(salesProgressPerc[fIter] < 75, '#fec8cf', IF(salesProgressPerc[fIter] < 100, '#feeaa0', '#c7eecf'))}">
+               <apex:outputText value="{0,number, 0.0}%">
+                   <apex:param value="{!salesProgressPerc[fIter]}"/>
+               </apex:outputText>
+           </td>
+           </tr>
+           </apex:repeat>
+        </tbody>
+        
+        <tfoot>
+          <tr>
+            <td class="total">
+              <apex:outputText value="{0,number, 0.0}%">
+                   <apex:param value="{!leadsProgressPercAvg}"/>
+               </apex:outputText>
+            </td> 
+            <td class="total">
+              <apex:outputText value="{0,number, 0.0}%">
+                   <apex:param value="{!qualifiedLeadsProgressPercAvg}"/>
+               </apex:outputText>
+            </td>
+            <td class="total">
+              <apex:outputText value="{0,number, 0.0}%">
+                   <apex:param value="{!testDrivesProgressPercAvg}"/>
+               </apex:outputText>
+            </td>
+            <td class="total">
+              <apex:outputText value="{0,number, 0.0}%">
+                   <apex:param value="{!salesProgressPercAvg}"/>
+               </apex:outputText>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      </apex:outputPanel>
+  </apex:panelGrid>
+  </apex:form>
+</apex:outputPanel>
+    <script>
+        var timer;
+        function setTimer(callback) {
+            if(timer) clearTimeout(timer);
+            timer = setTimeout(callback, 500);
+        }
+    </script>
+</apex:page>

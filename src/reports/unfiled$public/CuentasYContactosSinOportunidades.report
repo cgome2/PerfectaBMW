@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Contact.Cuentas__r$Id</field>
+    </columns>
+    <columns>
+        <field>Contact.Cuentas__r$Name</field>
+    </columns>
+    <columns>
+        <field>Contact.Cuentas__r$Num_Opp__c</field>
+    </columns>
+    <columns>
+        <field>Contact.Cuentas__r.Assets$PurchaseDate</field>
+    </columns>
+    <columns>
+        <field>Contact.Cuentas__r.Assets$Sucursal__c</field>
+    </columns>
+    <description>Cuentas y Contactos sin Oportunidades</description>
+    <filter>
+        <criteriaItems>
+            <column>Contact.Cuentas__r$Num_Opp__c</column>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>Cuentas y Contactos sin Oportunidades</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>ContactosCuentasYActivo__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Contact$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>
