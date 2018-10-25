@@ -245,8 +245,8 @@
                  <td class="encabezadoSecundario" width="80">Ventas</td>            
                </tr>
                <tr>
-                 <td class="textoGrande">{!totalesObjetivo.ventas}</td>
-                 <td class="textoGrande">{!totalVentasLogradas}</td>
+                 <td class="textoGrande">{!totalesObjetivo.ventas}</td>                 
+                 <td class="textoGrande"><apex:outputLink value="{!urlTotalVentasLogradas}"><apex:outputText value="{!totalVentasLogradas}"/></apex:outputLink></td>
                </tr>
                <tr>
                  <td class="texto">

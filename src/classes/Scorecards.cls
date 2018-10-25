@@ -87,6 +87,10 @@ public with sharing class Scorecards {
     public List<VentaPerdida> listVentasPerdidas {get; set;}
     public Integer totalVentasPerdidas {get; set;}
     
+    // URL reports --------------------------------------------------------------
+    public Map<String, Report_Link__mdt> reportURL {get; set;}
+    public String urlTotalVentasLogradas {get;set;}
+
     public Scorecards() {
         
         totalProspectosLogrados = 0;
@@ -98,6 +102,8 @@ public with sharing class Scorecards {
         initSucursalesCheckbox();
         initTypesProductCheckbox();        
         setDateInterval();
+        this.reportURL = PerfectaDAO.getCustomMetadata();        
+        setUrlReports();
         users = PerfectaDAO.getUsers(selectedSucursal, USUARIO_VENTAS);
         loadRazonesVentasPerdidas();
         System.debug('SCorecards--------');
@@ -1624,6 +1630,7 @@ public with sharing class Scorecards {
         changeCheckSucursal();
         changeCheckTipoProducto();
         setDateInterval();
+        setURLReports();
         if(!Test.isRunningTest()){
             calculate();
         }
@@ -1804,4 +1811,23 @@ public with sharing class Scorecards {
     return prospectosSummary;
     }
     
+
+/**
+* URL para reportes
+*/
+    private void setURLReports()
+    {
+        Report_Link__mdt reportMetadata;
+
+       String strFechaIni = dateini.month() + '/' + dateIni.day() + '/' + dateIni.year();
+       String strFechaFin = dateEnd.month() + '/' + dateEnd.day() + '/' + dateEnd.year();      
+
+        reportMetadata = reportURL.get('SC_VE_Logradas');
+        this.urlTotalVentasLogradas = reportMetadata.Link__c;
+        this.urlTotalVentasLogradas += '?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + selectedSucursales;
+        this.urlTotalVentasLogradas += '&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + selectedTiposProducto;
+        this.urlTotalVentasLogradas += '&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaIni;
+        this.urlTotalVentasLogradas += '&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;
+    }
+
 }
