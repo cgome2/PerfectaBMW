@@ -58,7 +58,7 @@ public class PlanificacionPorEjecutivo
        tiposProductoCENTRAL = new List<String>();
        tiposProductoBPS = new List<String>();
     
-       fechaActual =  Date.Today();//Date.newInstance(2018, 10, 19);//
+       fechaActual =  Date.newInstance(2018, 10, 19);//Date.Today();//
        currentIntMonth = fechaActual.month();
        currentIntYear = fechaActual.year();
        reportURL = PerfectaDAO.getCustomMetadata();
@@ -76,8 +76,8 @@ public class PlanificacionPorEjecutivo
                         Name,
                         Profile.Name
                    FROM User
-                   //WHERE Id = '005f4000000IcdsAAC'];
-                   WHERE Id = :UserInfo.getUserId()];
+                   WHERE Id = '005f4000000IcdsAAC'];
+                   //WHERE Id = :UserInfo.getUserId()];
        System.debug('U [' + u.id + '] N [' + u.Name + ']');
        userId = u.Id;
        userName = u.Name;

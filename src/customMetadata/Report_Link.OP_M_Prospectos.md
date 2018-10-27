@@ -4,23 +4,23 @@
     <protected>false</protected>
     <values>
         <field>Link__c</field>
-        <value xsi:type="xsd:string">/00Of4000005e0Wy</value>
+        <value xsi:type="xsd:string">/00O1b000000VBvD</value>
     </values>
     <values>
         <field>pc0__c</field>
-        <value xsi:type="xsd:string">STATUS</value>
+        <value xsi:type="xsd:string">SUBJECT</value>
     </values>
     <values>
         <field>pc1__c</field>
-        <value xsi:type="xsd:string">CONVERTED</value>
+        <value xsi:type="xsd:string">DUE_DATE</value>
     </values>
     <values>
         <field>pc2__c</field>
-        <value xsi:type="xsd:string">00Nf4000009IMG8</value>
+        <value xsi:type="xsd:string">DUE_DATE</value>
     </values>
     <values>
         <field>pc3__c</field>
-        <value xsi:type="xsd:string">OWNER</value>
+        <value xsi:type="xsd:string">ASSIGNED</value>
     </values>
     <values>
         <field>pc4__c</field>
@@ -36,11 +36,11 @@
     </values>
     <values>
         <field>pn1__c</field>
-        <value xsi:type="xsd:string">eq</value>
+        <value xsi:type="xsd:string">ge</value>
     </values>
     <values>
         <field>pn2__c</field>
-        <value xsi:type="xsd:string">eq</value>
+        <value xsi:type="xsd:string">le</value>
     </values>
     <values>
         <field>pn3__c</field>

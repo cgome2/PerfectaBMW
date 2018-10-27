@@ -67,6 +67,11 @@
             <value>12/31/2018 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
+            <column>Opportunity.Es_Retail_WholeSale__c</column>
+            <operator>equals</operator>
+            <value>Retail</value>
+        </criteriaItems>
+        <criteriaItems>
             <column>STAGE_NAME</column>
             <operator>equals</operator>
             <value>Cerrada/Ganada</value>
@@ -88,7 +93,7 @@
         <field>FULL_NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>ventasTotalesLogradas</name>
+    <name>VentasRetail</name>
     <params>
         <name>open</name>
         <value>all</value>

@@ -204,7 +204,7 @@ function drawChartDiffDaily() {
       ['Ventas', {!ventasMensualAvance}]
     ]);
 
-    var oldDataX = google.visualization.arrayToDataTable([
+    var oldData = google.visualization.arrayToDataTable([
       ['Name', 'Avance'],
       ['Prospectos', {!prospectosMensualObjetivo}],
       ['Leads Calificados', {!leadsMensualObjetivo}],
@@ -235,7 +235,7 @@ function drawChartDiffDaily() {
               offset = 4;
           }
           if (selectedItem) {
-            var topping = oldDataX.getValue(selectedItem.row - offset, 0);
+            var topping = oldData.getValue(selectedItem.row - offset, 0);
             console.log('TOP >> ' + topping);
             if(topping == 'Prospectos')
             {
@@ -278,7 +278,7 @@ function drawChartDiffDaily() {
                                  prefix: 'Avance'
                              }
                            },
-                           oldDataX:
+                           oldData:
                            {
                              tooltip:
                              {
@@ -288,7 +288,7 @@ function drawChartDiffDaily() {
                           } 
                   };
 
-    var diffData = barChartDiff.computeDiff(oldDataX, newData);    
+    var diffData = barChartDiff.computeDiff(oldData, newData);    
     barChartDiff.draw(diffData, options);
 
     e = document.querySelectorAll('[text-anchor="start"]');

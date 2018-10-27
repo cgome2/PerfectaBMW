@@ -90,6 +90,8 @@ public with sharing class Scorecards {
     // URL reports --------------------------------------------------------------
     public Map<String, Report_Link__mdt> reportURL {get; set;}
     public String urlTotalVentasLogradas {get;set;}
+    public String urlTotalVentasRetail {get;set;}
+    public String urlTotalVentasWholesale {get;set;}
 
     public Scorecards() {
         
@@ -1828,6 +1830,16 @@ public with sharing class Scorecards {
         this.urlTotalVentasLogradas += '&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + selectedTiposProducto;
         this.urlTotalVentasLogradas += '&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaIni;
         this.urlTotalVentasLogradas += '&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;
+
+        reportMetadata = reportURL.get('SC_VE_RetailWholesale');
+        this.urlTotalVentasRetail = reportMetadata.Link__c;
+        this.urlTotalVentasRetail += '?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + selectedSucursales;
+        this.urlTotalVentasRetail += '&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + selectedTiposProducto;
+        this.urlTotalVentasRetail += '&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaIni;
+        this.urlTotalVentasRetail += '&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;
+        this.urlTotalVentasRetail += '&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c;
+        this.urlTotalVentasWholesale = this.urlTotalVentasRetail + '&pv4=' + 'Wholesale';
+        this.urlTotalVentasRetail += '&pv4=' + 'Retail';
     }
 
 }

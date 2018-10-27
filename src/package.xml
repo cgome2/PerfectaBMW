@@ -196,6 +196,7 @@
         <members>Informes_Comerciales/Prospectos_Calificados</members>
         <members>Informes_Comerciales/Prospectos_con_Contactos</members>
         <members>Informes_Comerciales/Prospectos_todos_no_convertidos</members>
+        <members>Informes_Comerciales/Tareas</members>
         <members>Informes_Comerciales/Tasaci_n_en_Prospecto</members>
         <members>Informes_Comerciales/Tazaci_n_en_Contacto</members>
         <members>Informes_Comerciales/Test_Drive_en_Contactos</members>
@@ -294,6 +295,8 @@
         <members>Prospectos/Prospectos_y_contactos_2_BPS</members>
         <members>ReportesScorecards</members>
         <members>ReportesScorecards/VentasConquista</members>
+        <members>ReportesScorecards/VentasRetail</members>
+        <members>ReportesScorecards/Ventas_Wholesale</members>
         <members>ReportesScorecards/ventasTotalesLogradas</members>
         <members>Sales_Marketing_Reports</members>
         <members>Sales_Marketing_Reports/Closed_Lost_by_Reason</members>

@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Link__c</field>
-        <value xsi:type="xsd:string">00O1b000000VBdd</value>
+        <value xsi:type="xsd:string">/00O1b000000VBdd</value>
     </values>
     <values>
         <field>pc0__c</field>
@@ -16,15 +16,15 @@
     </values>
     <values>
         <field>pc2__c</field>
-        <value xsi:type="xsd:string">STAGE_NAME</value>
+        <value xsi:type="xsd:string">00Nf4000009ID3o</value>
     </values>
     <values>
         <field>pc3__c</field>
-        <value xsi:type="xsd:string">OWNER_ACTIVE</value>
+        <value xsi:type="xsd:string">00Nf4000009ID3o</value>
     </values>
     <values>
         <field>pc4__c</field>
-        <value xsi:type="xsd:string">OWNER_PROFILE</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>pc5__c</field>
@@ -40,15 +40,15 @@
     </values>
     <values>
         <field>pn2__c</field>
-        <value xsi:type="xsd:string">eq</value>
+        <value xsi:type="xsd:string">ge</value>
     </values>
     <values>
         <field>pn3__c</field>
-        <value xsi:type="xsd:string">eq</value>
+        <value xsi:type="xsd:string">le</value>
     </values>
     <values>
         <field>pn4__c</field>
-        <value xsi:type="xsd:string">eq</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>pn5__c</field>
