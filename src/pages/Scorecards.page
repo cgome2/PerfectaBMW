@@ -348,7 +348,7 @@
                </tr>
                <tr>
                  <td class="textoTituloCelda" width="110">Clientes Cash</td>
-                 <td class="textoGrande" width="80">{!totalVentasCash}</td>
+                 <td class="textoGrande"><apex:outputLink value="{!urlTotalVentasCash}"><apex:outputText value="{!totalVentasCash}"/></apex:outputLink></td>
                  <td class="texto" width="80">
                    <apex:outputText value="{0,number, 0.0}%">
                      <apex:param value="{!totalVentasCashPorcentaje}"/>
@@ -357,7 +357,7 @@
                </tr>
                <tr>
                  <td class="textoTituloCelda">Terminaciones FS</td>
-                 <td class="textoGrande">{!totalVentasFS}</td>
+                 <td class="textoGrande"><apex:outputLink value="{!urlTotalVentasTerminacionesFS}"><apex:outputText value="{!totalVentasFS}"/></apex:outputLink></td>
                  <td class="texto">
                    <apex:outputText value="{0,number, 0.0}%">
                      <apex:param value="{!totalVentasFSPorcentaje}"/>
@@ -383,7 +383,7 @@
                  <td class="encabezadoSecundario" width="80">Entregas</td>
                </tr>
                <tr>
-                 <td class="textoGrande">{!totalVentasEntrega}</td>
+                 <td class="textoGrande"><apex:outputLink value="{!urlTotalVentasEntregas}"><apex:outputText value="{!totalVentasEntrega}"/></apex:outputLink></td>
                </tr>
                <tr>
                  <td class="texto">

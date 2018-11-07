@@ -9,15 +9,18 @@ public class UIRecordTableScorecard
     public String valueLogrado {get; set;}
     public String valueConquista {get; set;}
     public String valueLealtad {get; set;}
-    public String valueTarea {get; set;}    
+    public String valueTarea {get; set;}
     public Decimal valuePorcentajeObjetivo {get; set;}
     public Decimal valuePorcentajeLogrado {get; set;}
     public Decimal valuePorcentajeConquista {get; set;}
     public Decimal valuePorcentajeLealtad {get; set;}
+
+    public String urlLogrado {get; set;}
     
     public UIRecordTableScorecard(String pLabelObjetivo, String pLabelLogrado, String pLabelConquista, String pLabelLealtad, String pLabelTarea, 
                                   String pValueObjetivo, String pValueLogrado, String pValueConquista, String pValueLealtad, String pValueTarea, 
-                                  Decimal pValuePorcentajeObjetivo, Decimal pValuePorcentajeLogrado, Decimal pValuePorcentajeConquista, Decimal pValuePorcentajeLealtad)
+                                  Decimal pValuePorcentajeObjetivo, Decimal pValuePorcentajeLogrado, Decimal pValuePorcentajeConquista, Decimal pValuePorcentajeLealtad,
+                                  String purlLogrado)
     {
        labelObjetivo = pLabelObjetivo;
        labelLogrado = pLabelLogrado;
@@ -33,6 +36,7 @@ public class UIRecordTableScorecard
        valuePorcentajeLogrado = pValuePorcentajeLogrado;
        valuePorcentajeConquista = pValuePorcentajeConquista;
        valuePorcentajeLealtad = pValuePorcentajeLealtad;
+       urlLogrado = purlLogrado;
     }    
     
 }

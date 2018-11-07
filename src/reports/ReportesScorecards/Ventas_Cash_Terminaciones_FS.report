@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>User$Name</field>
+    </columns>
+    <columns>
+        <field>User.Opportunity$CreatedById.Quotes$Name</field>
+    </columns>
+    <columns>
+        <field>User.Opportunity$CreatedById.Quotes$Forma_de_pago__c</field>
+    </columns>
+    <description>Ventas Cash Terminaciones FS</description>
+    <filter>
+        <criteriaItems>
+            <column>User.Opportunity$CreatedById$Sucursalv2__c</column>
+            <operator>contains</operator>
+            <value>CENTRAL,CDE,BPS</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Opportunity$CreatedById$Tipo_contacto__c</column>
+            <operator>contains</operator>
+            <value>0KM,BPS,Multimarcas,Usado BMW,No Identificado</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Opportunity$CreatedById$Fecha_de_Venta__c</column>
+            <operator>greaterOrEqual</operator>
+            <value>1/1/2018 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Opportunity$CreatedById$Fecha_de_Venta__c</column>
+            <operator>lessOrEqual</operator>
+            <value>12/31/2018 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Opportunity$CreatedById.Quotes$Forma_de_pago__c</column>
+            <operator>notEqual</operator>
+            <value>Contado</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Opportunity$CreatedById$StageName</column>
+            <operator>equals</operator>
+            <value>Cerrada/Ganada</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User$IsActive</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User$Profile</column>
+            <operator>equals</operator>
+            <value>Usuario de Ventas</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Opportunity$CreatedById.Quotes$IsSyncing</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>User.Opportunity$CreatedById$Name</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Ventas Cash Terminaciones FS</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Usuarios_Oportunidades_Presupuestos__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>User.Opportunity$CreatedById$CloseDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

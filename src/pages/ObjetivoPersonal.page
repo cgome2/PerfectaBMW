@@ -137,7 +137,7 @@ function drawChartDiffDaily() {
               offset = 4;
           }
           if (selectedItem) {
-            var topping = oldDataX.getValue(selectedItem.row - offset, 0);
+            var topping = oldData.getValue(selectedItem.row - offset, 0);
             console.log('TOP >> ' + topping);
             if(topping == 'Prospectos')
             {

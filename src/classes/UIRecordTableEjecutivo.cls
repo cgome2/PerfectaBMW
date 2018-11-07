@@ -14,10 +14,13 @@ public class UIRecordTableEjecutivo
     public Decimal valuePorcentajeLogrado {get; set;}
     public Decimal valuePorcentajeConquista {get; set;}
     public Decimal valuePorcentajeLealtad {get; set;}
+
+    public String urlLogrado {get; set;}
     
     public UIRecordTableEjecutivo(String pLabelObjetivo, String pLabelLogrado, String pLabelConquista, String pLabelLealtad, String pLabelTarea, 
                                   String pValueObjetivo, String pValueLogrado, String pValueConquista, String pValueLealtad, String pValueTarea, 
-                                  Decimal pValuePorcentajeObjetivo, Decimal pValuePorcentajeLogrado, Decimal pValuePorcentajeConquista, Decimal pValuePorcentajeLealtad)
+                                  Decimal pValuePorcentajeObjetivo, Decimal pValuePorcentajeLogrado, Decimal pValuePorcentajeConquista, Decimal pValuePorcentajeLealtad,
+                                  String purlLogrado)
     {
        labelObjetivo = pLabelObjetivo;
        labelLogrado = pLabelLogrado;
@@ -33,5 +36,6 @@ public class UIRecordTableEjecutivo
        valuePorcentajeLogrado = pValuePorcentajeLogrado;
        valuePorcentajeConquista = pValuePorcentajeConquista;
        valuePorcentajeLealtad = pValuePorcentajeLealtad;
+       urlLogrado = purlLogrado;
     }
 }

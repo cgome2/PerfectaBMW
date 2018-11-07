@@ -181,28 +181,35 @@
         <members>Informes_BPS/Prospectos_asignados_a_Ejecutivo_BPS</members>
         <members>Informes_Comerciales</members>
         <members>Informes_Comerciales/Cotizaciones_en_Contactos</members>
+        <members>Informes_Comerciales/Entrega_Planificacion</members>
         <members>Informes_Comerciales/Entregas</members>
         <members>Informes_Comerciales/Leads_Calificados</members>
         <members>Informes_Comerciales/Modelo_de_Venta_por_Ejecutivo</members>
         <members>Informes_Comerciales/Modelos_de_Venta</members>
         <members>Informes_Comerciales/Modelos_de_Venta_BPS</members>
+        <members>Informes_Comerciales/Oportunidad_VOC_Planificacion</members>
         <members>Informes_Comerciales/Oportunidades_Abiertas_BPS</members>
         <members>Informes_Comerciales/Oportunidades_Abiertas_CDE</members>
         <members>Informes_Comerciales/Oportunidades_Abiertas_CENTRAL</members>
+        <members>Informes_Comerciales/Oportunidades_Fuente_Origen</members>
         <members>Informes_Comerciales/Oportunidades_leads</members>
         <members>Informes_Comerciales/Presupuestos_por_Tipo_de_Pago</members>
         <members>Informes_Comerciales/Presupuestos_por_Tipo_de_Pago_BPS</members>
         <members>Informes_Comerciales/Propuestas_Comerciales_a</members>
         <members>Informes_Comerciales/Prospectos_Calificados</members>
+        <members>Informes_Comerciales/Prospectos_Planinificacion_Fuente_Origen</members>
         <members>Informes_Comerciales/Prospectos_con_Contactos</members>
         <members>Informes_Comerciales/Prospectos_todos_no_convertidos</members>
+        <members>Informes_Comerciales/SC_Test_Drives_Fuente_Origen</members>
         <members>Informes_Comerciales/Tareas</members>
         <members>Informes_Comerciales/Tasaci_n_en_Prospecto</members>
         <members>Informes_Comerciales/Tazaci_n_en_Contacto</members>
+        <members>Informes_Comerciales/Test_Drive_Fuente_Origen</members>
         <members>Informes_Comerciales/Test_Drive_en_Contactos</members>
         <members>Informes_Comerciales/Test_Drive_en_Oportunidades</members>
         <members>Informes_Comerciales/Test_Drive_por_Ejecutivos</members>
         <members>Informes_Comerciales/VENTAS_POR_A_O</members>
+        <members>Informes_Comerciales/Ventas_Ejecutivo_Fuente_Origen</members>
         <members>Informes_Comerciales/Ventas_Perdidas_por_Ejecutivo</members>
         <members>Informes_Comerciales/Ventas_Perdidas_por_Ejecutivo_BPS</members>
         <members>Informes_Comerciales/Ventas_por_Campa_a</members>
@@ -294,9 +301,11 @@
         <members>Prospectos/Prospectos_y_Actividades_2_BPS</members>
         <members>Prospectos/Prospectos_y_contactos_2_BPS</members>
         <members>ReportesScorecards</members>
-        <members>ReportesScorecards/VentasConquista</members>
-        <members>ReportesScorecards/VentasRetail</members>
-        <members>ReportesScorecards/Ventas_Wholesale</members>
+        <members>ReportesScorecards/SC_Ventas_Conquista_Lealtad</members>
+        <members>ReportesScorecards/VEntregas</members>
+        <members>ReportesScorecards/VentasRetailWholesale</members>
+        <members>ReportesScorecards/Ventas_Cash</members>
+        <members>ReportesScorecards/Ventas_Cash_Terminaciones_FS</members>
         <members>ReportesScorecards/ventasTotalesLogradas</members>
         <members>Sales_Marketing_Reports</members>
         <members>Sales_Marketing_Reports/Closed_Lost_by_Reason</members>

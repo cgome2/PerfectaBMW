@@ -232,7 +232,7 @@ public class PerfectaDAO
                         Forma_de_pago__c,
                         Status,
                         Aprobaci_n_de_Credito__c
-                   FROM Quote 
+                   FROM Quote
                   WHERE OpportunityId IN (SELECT Id
                                             FROM Opportunity 
                                            WHERE Owner.Id = :idEjecutivos
@@ -241,7 +241,11 @@ public class PerfectaDAO
                                              AND Fecha_de_Venta__c <= :fechaFin
                                              AND Stagename = :estadoOportunidad)
               ORDER BY OpportunityId];
+
+       System.debug(' NUM QUOTES [' + quotes.size() + ']');            
        
+       Integer i = 1;
+       Integer j = 1;       
        for(Quote q : quotes)
        {
            idOpp = oppQuotes.get(q.OpportunityId);
@@ -251,12 +255,15 @@ public class PerfectaDAO
                if(q.Forma_de_pago__c == 'Contado')
                {
                   ventasCash += 1;
+                  System.debug(' [' + i + '] [' + q.OpportunityId + '] [' + ventasCash + '] [' + ventasFs + ']');  
+                  i++;
                }
                else
                {
                   ventasFs += 1;
                }
            }
+           j++;
        }
 
        System.debug('CASH FS c[' + ventasCash + '] f[' + ventasFs + ']');
@@ -326,11 +333,27 @@ public class PerfectaDAO
       List<Schema.PicklistEntry> plv = source.getPicklistValues();
       for( Schema.PicklistEntry pickListVal : plv){
         fuenteOrigenList.add(pickListVal.getValue());
+        //fuenteOrigenList.add(pickListVal.getLabel());
       }
       return fuenteOrigenList;
     }
     
-    
+    /**
+    * Returns the list of possible Lead Sources
+    */
+    public static Map<String, String> getFuentesOrigenLabel()
+    {
+      String value;
+      Map<String, String> fuenteOrigenMap = new Map<String, String>();
+      Schema.DescribeFieldResult source = Lead.LeadSource.getDescribe();
+      List<Schema.PicklistEntry> plv = source.getPicklistValues();
+      for( Schema.PicklistEntry pickListVal : plv){
+        fuenteOrigenMap.put(pickListVal.getValue(), pickListVal.getLabel());
+      }
+      return fuenteOrigenMap;
+    }
+
+
     /**
     * REFACTORING: Clave variable (Ejecutivo o Fuente)
     */
@@ -459,12 +482,13 @@ public class PerfectaDAO
          idejstr = idejstr + '\'' + idej + '\',';
        }
        System.debug('TDFO idejs[' + idejstr + ']');
+       System.debug('TDFO tipos prod[' + tiposProducto + ']');
        
        results = [SELECT Oportunidad__r.LeadSource leads, 
                          COUNT(Id) countN 
                     FROM Prueba_de_manejo__c
                    WHERE Createddate >= :fechaIni
-                     AND Createddate <= :fechaFin                                                      
+                     AND Createddate <= :fechaFin 
                      //AND Oportunidad__r.Ownerid IN :idEjecutivos
                      AND CreatedById IN :idEjecutivos
                      AND Oportunidad__r.Tipo_contacto__c IN :tiposProducto
@@ -2090,6 +2114,7 @@ public class PerfectaDAO
                         FROM Task
                        WHERE Subject = :subjectTask
                          AND Owner.id IN :idEjecutivos 
+                         //AND Owner.id IN ('005f4000000Icdx') 
                          AND ActivityDate >= :fechaIni
                          AND ActivityDate <= :fechaFin]){
                             
@@ -2114,7 +2139,14 @@ public class PerfectaDAO
                 }
                 ejToLeadIds.get(t.OwnerId).add(t.whoId);
             }
+
+            /*if(t.Ownerid == '005f4000000Icdx')
+            {
+                System.debug('TASK [' + t.whatid + '] [' + t.whoid + '] [' + t.ownerid + ']');
+            }*/
         }
+
+        System.debug(' [' + ejToAccIds.size() + '] [' + cntIdToEj.size() + '] [' + oppIdToEj.size() + '] [' + ejToLeadIds.size() + ']');
 
         //Leads by type product
         for(Lead lead : [SELECT Id
@@ -2141,7 +2173,7 @@ public class PerfectaDAO
         }
 
         typesProductStr.add(null);
-
+        //System.debug('PPPPPPPPPPPPPPPP TPROD[' + typesProductStr + ']');
         for(Contact c : [SELECT Id,
                                 AccountId,
                                 Tipo_de_producto__c

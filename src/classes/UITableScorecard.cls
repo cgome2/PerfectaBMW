@@ -13,11 +13,13 @@ public class UITableScorecard
     
     public void addRecord(String pLabelObjetivo, String pLabelLogrado, String pLabelConquista, String pLabelLealtad, String pLabelTarea,
                           String pValueObjetivo, String pValueLogrado, String pValueConquista, String pValueLealtad, String pValueTarea, 
-                          Decimal pValuePorcentajeObjetivo, Decimal valuePorcentajeLogrado, Decimal valuePorcentajeConquista, Decimal valuePorcentajeLealtad)
+                          Decimal pValuePorcentajeObjetivo, Decimal valuePorcentajeLogrado, Decimal valuePorcentajeConquista, Decimal valuePorcentajeLealtad,
+                          String purlLogrado)
     {
         records.add(new UIRecordTableScorecard(pLabelObjetivo, pLabelLogrado, pLabelConquista, pLabelLealtad, pLabelTarea, 
                                                pValueObjetivo, pValueLogrado, pValueConquista, pValueLealtad, pValueTarea, 
-                                               pValuePorcentajeObjetivo, valuePorcentajeLogrado, valuePorcentajeConquista, valuePorcentajeLealtad));
+                                               pValuePorcentajeObjetivo, valuePorcentajeLogrado, valuePorcentajeConquista, valuePorcentajeLealtad,
+                                               purlLogrado));
     }
     
     

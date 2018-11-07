@@ -33,31 +33,27 @@
     <columns>
         <field>Opportunity.tiene_TD__c</field>
     </columns>
+    <description>Oportunidades fuente origen</description>
     <filter>
         <criteriaItems>
             <column>CREATED</column>
-            <operator>notEqual</operator>
-            <value>TIC</value>
+            <operator>equals</operator>
+            <value>Juan Matiauda</value>
         </criteriaItems>
         <criteriaItems>
             <column>CREATED_DATE</column>
             <operator>greaterOrEqual</operator>
-            <value>1/1/2018 12:00 AM</value>
+            <value>11/1/2018 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
             <column>CREATED_DATE</column>
             <operator>lessOrEqual</operator>
-            <value>12/31/2018 12:00 AM</value>
+            <value>11/30/2018 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Account.Sucursal__c</column>
+            <column>Opportunity.Sucursalv2__c</column>
             <operator>equals</operator>
             <value>CENTRAL</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Opportunity.Tipo_contacto__c</column>
-            <operator>contains</operator>
-            <value>0Km,BPS,Multimarcas,Usado BMW,No Identificado</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
@@ -66,7 +62,7 @@
         <field>FULL_NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Oportunidades</name>
+    <name>Oportunidades Fuente Origen</name>
     <params>
         <name>open</name>
         <value>all</value>

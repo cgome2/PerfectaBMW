@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Opportunity.Pruebas_de_manejo__r$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>Opportunity$Account</field>
+    </columns>
+    <columns>
+        <field>Opportunity$Name</field>
+    </columns>
+    <columns>
+        <field>Opportunity.Pruebas_de_manejo__r$Modelo_que_manej__c</field>
+    </columns>
+    <columns>
+        <field>Opportunity.Pruebas_de_manejo__r$Conductor__c</field>
+    </columns>
+    <columns>
+        <field>Opportunity$LeadSource</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>Opportunity$LeadSource</column>
+            <operator>contains</operator>
+            <value>Campañas de Marketing,Cliente Posventa,Eventos,Formulario de Facebook,Inbox de Facebook,Llamadas,Prospeccion Proactiva,Referido,Visita a piso,Web</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.Pruebas_de_manejo__r$CreatedDate</column>
+            <operator>greaterOrEqual</operator>
+            <value>1/1/2018 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.Pruebas_de_manejo__r$CreatedDate</column>
+            <operator>lessThan</operator>
+            <value>11/30/2018 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity$Sucursalv2__c</column>
+            <operator>contains</operator>
+            <value>CENTRAL,CDE,BPS</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity$Tipo_contacto__c</column>
+            <operator>contains</operator>
+            <value>0Km,BPS,Multimarcas,Usado BMW,No Identificado</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Opportunity.Pruebas_de_manejo__r$CreatedBy</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Test Drive Fuente Origen</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>TD__c</reportType>
+    <roleHierarchyFilter>DireccionEjecutiva</roleHierarchyFilter>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Opportunity.Pruebas_de_manejo__r$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

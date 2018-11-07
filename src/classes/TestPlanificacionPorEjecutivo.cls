@@ -9,7 +9,7 @@ private class TestPlanificacionPorEjecutivo {
 			ppe = new PlanificacionPorEjecutivo();
 		}
 		//system.assertEquals(ppe.prospectosDiarioAvance, 1);
-		system.assertEquals(ppe.prospectosDiarioObjetivo, 2);    
+		system.assertEquals(ppe.prospectosDiarioObjetivo, 2);
 		//system.assertEquals(ppe.leadsDiarioAvance, 1);
 		system.assertEquals(ppe.leadsDiarioObjetivo, 1);    
 		//system.assertEquals(ppe.testDrivesDiarioAvance, 1);

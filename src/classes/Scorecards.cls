@@ -89,9 +89,30 @@ public with sharing class Scorecards {
     
     // URL reports --------------------------------------------------------------
     public Map<String, Report_Link__mdt> reportURL {get; set;}
+
+    private Map<String, String> fuenteOrigenMap {get; set;}
+
     public String urlTotalVentasLogradas {get;set;}
     public String urlTotalVentasRetail {get;set;}
     public String urlTotalVentasWholesale {get;set;}
+    public String urlTotalVentasEntregas {get;set;}
+    public String urlTotalVentasCash {get;set;}
+    public String urlTotalVentasTerminacionesFS {get;set;}
+
+    private static final String OP_M_PROSPECTOS = 'OP_M_Prospectos';
+    private static final String OP_M_LEADS = 'OP_M_Leads';
+    private static final String OP_M_TD = 'OP_M_TD';
+    private static final String OP_M_VENTAS = 'OP_M_Ventas';
+    private static final String OP_M_ENTREGAS = 'OP_M_Entregas';
+    private static final String OP_M_VOC = 'OP_M_VOC';
+
+    private static final String OP_FO_M_PROSPECTOS = 'OP_FO_M_Prospectos';
+    private static final String OP_FO_M_LEADS = 'OP_FO_M_Leads';
+    private static final String SC_FO_TD = 'SC_FO_TD';
+    private static final String OP_FO_M_VENTAS = 'OP_FO_M_Ventas';
+    private static final String OP_FO_M_ENTREGAS = 'OP_FO_M_Entregas';
+    private static final String OP_FO_M_VOC = 'OP_FO_M_VOC';
+
 
     public Scorecards() {
         
@@ -101,6 +122,9 @@ public with sharing class Scorecards {
         currentIntYear = fechaActual.year();    
         periodOpts = initPeriodOpts();
         period = String.valueOf(currentIntMonth);
+
+        fuenteOrigenMap = PerfectaDAO.getFuentesOrigenLabel();
+
         initSucursalesCheckbox();
         initTypesProductCheckbox();        
         setDateInterval();
@@ -705,13 +729,13 @@ public with sharing class Scorecards {
        for(RegistroVentas e : ejecutivos)
        {
           uiTablaEjecutivo = new UITableEjecutivo(e.registroName, index);
-          uiTablaEjecutivo.addRecord('Prospectos','Prospectos', 'CONQ','Lealtad', 'Seguimiento', String.valueOf(e.prospectosLogrado), String.valueOf(e.prospectos),String.valueOf(e.prospectosConquista),String.valueOf(e.prospectosLealtad),String.valueOf(e.seguimientoProspectos), e.prospectosPorcentaje,e.prospectosLogradoPorcentaje,e.prospectosConquistaPorcentaje ,e.prospectosLealtadPorcentaje);
-          uiTablaEjecutivo.addRecord('Leads','Leads', '','', '', String.valueOf(e.leadsCalificadosLogrado), String.valueOf(e.leadsCalificados), String.valueOf(e.leadsCalificadosConquista), String.valueOf(e.leadsCalificadosLealtad),String.valueOf(e.seguimientoLeads),e.leadsCalificadosPorcentaje,e.leadsCalificadosLogradoPorcentaje,e.leadsCalificadosConquistaPorcentaje,e.leadsCalificadosLealtadPorcentaje);
-          uiTablaEjecutivo.addRecord('TD','TD', '','', '', String.valueOf(e.testDrivesLogrado),String.valueOf(e.testDrives), String.valueOf(e.testDrivesConquista), String.valueOf(e.testDrivesLealtad),String.valueOf(e.seguimientoTestDrives),e.testDrivesPorcentaje,e.testDrivesLogradoPorcentaje,e.testDrivesConquistaPorcentaje,e.testDrivesLealtadPorcentaje);
-          uiTablaEjecutivo.addRecord('Ofertas','Ofertas', '','', '', String.valueOf(e.ofertasLogrado), String.valueOf(e.ofertas), String.valueOf(e.ofertasConquista), String.valueOf(e.ofertasLealtad),String.valueOf(e.seguimientoOfertas),e.ofertasPorcentaje,e.ofertasLogradoPorcentaje,e.ofertasConquistaPorcentaje,e.ofertasLealtadPorcentaje);
-          uiTablaEjecutivo.addRecord('ventas','Ventas', '','', '', String.valueOf(e.ventasLogrado), String.valueOf(e.ventas), String.valueOf(e.ventasConquista), String.valueOf(e.ventasLealtad), '0',e.ventasPorcentaje,e.ventasLogradoPorcentaje,e.ventasConquistaPorcentaje,e.ventasLealtadPorcentaje);
-          uiTablaEjecutivo.addRecord('Entregados','Entregados', '','', '', String.valueOf(e.entregadosLogrado), String.valueOf(e.entregados), String.valueOf(e.entregadosConquista), String.valueOf(e.entregadosLealtad),'0',e.entregadosPorcentaje,e.entregadosLogradoPorcentaje,e.entregadosConquistaPorcentaje,e.entregadosLealtadPorcentaje);
-          uiTablaEjecutivo.addRecord('VOICE','VOICE', '','', '', String.valueOf(e.voiceLogrado),String.valueOf(e.voice), String.valueOf(e.voiceConquista), String.valueOf(e.voiceLealtad), '0',e.voicePorcentaje,e.voiceLogradoPorcentaje,e.voiceConquistaPorcentaje,e.voiceLealtadPorcentaje);
+          uiTablaEjecutivo.addRecord('Prospectos','Prospectos', 'CONQ','Lealtad', 'Seguimiento', String.valueOf(e.prospectosLogrado), String.valueOf(e.prospectos),String.valueOf(e.prospectosConquista),String.valueOf(e.prospectosLealtad),String.valueOf(e.seguimientoProspectos), e.prospectosPorcentaje,e.prospectosLogradoPorcentaje,e.prospectosConquistaPorcentaje ,e.prospectosLealtadPorcentaje, buildReportURLEjecutivos(OP_M_PROSPECTOS, e.registroName));
+          uiTablaEjecutivo.addRecord('Leads','Leads', '','', '', String.valueOf(e.leadsCalificadosLogrado), String.valueOf(e.leadsCalificados), String.valueOf(e.leadsCalificadosConquista), String.valueOf(e.leadsCalificadosLealtad),String.valueOf(e.seguimientoLeads),e.leadsCalificadosPorcentaje,e.leadsCalificadosLogradoPorcentaje,e.leadsCalificadosConquistaPorcentaje,e.leadsCalificadosLealtadPorcentaje, buildReportURLEjecutivos(OP_M_LEADS, e.registroName));
+          uiTablaEjecutivo.addRecord('TD','TD', '','', '', String.valueOf(e.testDrivesLogrado),String.valueOf(e.testDrives), String.valueOf(e.testDrivesConquista), String.valueOf(e.testDrivesLealtad),String.valueOf(e.seguimientoTestDrives),e.testDrivesPorcentaje,e.testDrivesLogradoPorcentaje,e.testDrivesConquistaPorcentaje,e.testDrivesLealtadPorcentaje, buildReportURLEjecutivos(OP_M_TD, e.registroName));
+          uiTablaEjecutivo.addRecord('Ofertas','Ofertas', '','', '', String.valueOf(e.ofertasLogrado), String.valueOf(e.ofertas), String.valueOf(e.ofertasConquista), String.valueOf(e.ofertasLealtad),String.valueOf(e.seguimientoOfertas),e.ofertasPorcentaje,e.ofertasLogradoPorcentaje,e.ofertasConquistaPorcentaje,e.ofertasLealtadPorcentaje, buildReportURLEjecutivos(OP_M_TD, e.registroName));
+          uiTablaEjecutivo.addRecord('ventas','Ventas', '','', '', String.valueOf(e.ventasLogrado), String.valueOf(e.ventas), String.valueOf(e.ventasConquista), String.valueOf(e.ventasLealtad), '0',e.ventasPorcentaje,e.ventasLogradoPorcentaje,e.ventasConquistaPorcentaje,e.ventasLealtadPorcentaje, buildReportURLEjecutivos(OP_M_VENTAS, e.registroName));
+          uiTablaEjecutivo.addRecord('Entregados','Entregados', '','', '', String.valueOf(e.entregadosLogrado), String.valueOf(e.entregados), String.valueOf(e.entregadosConquista), String.valueOf(e.entregadosLealtad),'0',e.entregadosPorcentaje,e.entregadosLogradoPorcentaje,e.entregadosConquistaPorcentaje,e.entregadosLealtadPorcentaje, buildReportURLEjecutivos(OP_M_ENTREGAS, e.registroName));
+          uiTablaEjecutivo.addRecord('VOICE','VOICE', '','', '', String.valueOf(e.voiceLogrado),String.valueOf(e.voice), String.valueOf(e.voiceConquista), String.valueOf(e.voiceLealtad), '0',e.voicePorcentaje,e.voiceLogradoPorcentaje,e.voiceConquistaPorcentaje,e.voiceLealtadPorcentaje, buildReportURLEjecutivos(OP_M_VOC, e.registroName));
           
           tablasEjecutivo.add(uiTablaEjecutivo);
           index++;
@@ -721,7 +745,6 @@ public with sharing class Scorecards {
        conjuntoTablas = new ScorecardSetTable(tablasEjecutivo);
        
     }
- 
 
     private void buildConoFuenteOrigen()
     {
@@ -1002,20 +1025,20 @@ public with sharing class Scorecards {
        Integer index;
        UITableScorecard uiTableScore;
        index = 1;
-       for(RegistroVentas r : fuenteOrigenVentas)
+       for(RegistroVentas r : fuenteOrigenVentas) //buildReportURLFuenteOrigen(String report, String fuenteOrigen) 
        {
            uiTableScore = new UITableScorecard(r.registroName, index); 
-           uiTableScore.addRecord('Prospectos','Prospectos', 'CONQ','Lealtad', 'Seguimiento', String.valueOf(r.prospectosLogrado), String.valueOf(r.prospectos),String.valueOf(r.prospectosConquista),String.valueOf(r.prospectosLealtad),String.valueOf(r.seguimientoProspectos), r.prospectosPorcentaje,r.prospectosLogradoPorcentaje,r.prospectosConquistaPorcentaje,r.prospectosLealtadPorcentaje);
-           uiTableScore.addRecord('Leads','Leads', '','', '', String.valueOf(r.leadsCalificadosLogrado), String.valueOf(r.leadsCalificados), String.valueOf(r.leadsCalificadosConquista), String.valueOf(r.leadsCalificadosLealtad), String.valueOf(r.seguimientoLeads),r.leadsCalificadosPorcentaje,r.leadsCalificadosLogradoPorcentaje,r.leadsCalificadosConquistaPorcentaje,r.leadsCalificadosLealtadPorcentaje);
-           uiTableScore.addRecord('TD','TD', '','', '', String.valueOf(r.testDrivesLogrado),String.valueOf(r.testDrives), String.valueOf(r.testDrivesConquista), String.valueOf(r.testDrivesLealtad), String.valueOf(r.seguimientoTestDrives),r.testDrivesPorcentaje,r.testDrivesLogradoPorcentaje,r.testDrivesConquistaPorcentaje,r.testDrivesLealtadPorcentaje);
-           uiTableScore.addRecord('Ofertas','Ofertas', '','', '', String.valueOf(r.ofertasLogrado), String.valueOf(r.ofertas), String.valueOf(r.ofertasConquista), String.valueOf(r.ofertasLealtad),String.valueOf(r.seguimientoOfertas),r.ofertasPorcentaje,r.ofertasLogradoPorcentaje,r.ofertasConquistaPorcentaje,r.ofertasLealtadPorcentaje);
-           uiTableScore.addRecord('ventas','Ventas', '','', '', String.valueOf(r.ventasLogrado), String.valueOf(r.ventas), String.valueOf(r.ventasConquista), String.valueOf(r.ventasLealtad),'0',r.ventasPorcentaje,r.ventasLogradoPorcentaje,r.ventasConquistaPorcentaje,r.ventasLealtadPorcentaje);
+           uiTableScore.addRecord('Prospectos','Prospectos', 'CONQ','Lealtad', 'Seguimiento', String.valueOf(r.prospectosLogrado), String.valueOf(r.prospectos),String.valueOf(r.prospectosConquista),String.valueOf(r.prospectosLealtad),String.valueOf(r.seguimientoProspectos), r.prospectosPorcentaje,r.prospectosLogradoPorcentaje,r.prospectosConquistaPorcentaje,r.prospectosLealtadPorcentaje, buildReportURLFuenteOrigen(SC_FO_TD, r.registroName));
+           uiTableScore.addRecord('Leads','Leads', '','', '', String.valueOf(r.leadsCalificadosLogrado), String.valueOf(r.leadsCalificados), String.valueOf(r.leadsCalificadosConquista), String.valueOf(r.leadsCalificadosLealtad), String.valueOf(r.seguimientoLeads),r.leadsCalificadosPorcentaje,r.leadsCalificadosLogradoPorcentaje,r.leadsCalificadosConquistaPorcentaje,r.leadsCalificadosLealtadPorcentaje, buildReportURLFuenteOrigen(SC_FO_TD, r.registroName));
+           uiTableScore.addRecord('TD','TD', '','', '', String.valueOf(r.testDrivesLogrado),String.valueOf(r.testDrives), String.valueOf(r.testDrivesConquista), String.valueOf(r.testDrivesLealtad), String.valueOf(r.seguimientoTestDrives),r.testDrivesPorcentaje,r.testDrivesLogradoPorcentaje,r.testDrivesConquistaPorcentaje,r.testDrivesLealtadPorcentaje, buildReportURLFuenteOrigen(SC_FO_TD, r.registroName));
+           uiTableScore.addRecord('Ofertas','Ofertas', '','', '', String.valueOf(r.ofertasLogrado), String.valueOf(r.ofertas), String.valueOf(r.ofertasConquista), String.valueOf(r.ofertasLealtad),String.valueOf(r.seguimientoOfertas),r.ofertasPorcentaje,r.ofertasLogradoPorcentaje,r.ofertasConquistaPorcentaje,r.ofertasLealtadPorcentaje, buildReportURLFuenteOrigen(SC_FO_TD, r.registroName));
+           uiTableScore.addRecord('ventas','Ventas', '','', '', String.valueOf(r.ventasLogrado), String.valueOf(r.ventas), String.valueOf(r.ventasConquista), String.valueOf(r.ventasLealtad),'0',r.ventasPorcentaje,r.ventasLogradoPorcentaje,r.ventasConquistaPorcentaje,r.ventasLealtadPorcentaje, buildReportURLFuenteOrigen(SC_FO_TD, r.registroName));
            
            tablasVentasFuente.add(uiTableScore);
            index++;
        }
        
-       conjuntoTablasVentasFuente = new ScorecardSingleSetTable(tablasVentasFuente);
+       conjuntoTablasVentasFuente = new ScorecardSingleSetTable(tablasVentasFuente); 
               
     }
 
@@ -1205,12 +1228,12 @@ public with sharing class Scorecards {
        for(RegistroVentas r : campaniasRegsitros)
        {
            uiTableScore = new UITableScorecard(r.registroName, index);
-           uiTableScore.addRecord('Invitados','Invitados', 'Conquista','Lealtad', '', String.valueOf(r.prospectos), String.valueOf(r.prospectosLogrado), String.valueOf(r.prospectosConquista),String.valueOf(r.prospectosLealtad),'0', r.prospectosPorcentaje, 0 , 0, 0);
-           uiTableScore.addRecord('Confirmados','', '','', '', String.valueOf(r.leadsCalificados), String.valueOf(r.leadsCalificadosLogrado), String.valueOf(r.leadsCalificadosConquista), String.valueOf(r.leadsCalificadosLealtad), '0', r.leadsCalificadosPorcentaje, 0, 0, 0);
-           uiTableScore.addRecord('Asistentes','', '','', '', String.valueOf(r.voice), String.valueOf(r.voiceLogrado), String.valueOf(r.voiceConquista), String.valueOf(r.voiceLealtad), '0', r.voicePorcentaje, 0, 0, 0);           
-           uiTableScore.addRecord('Test Drive','', '','', '', String.valueOf(r.testDrives), String.valueOf(r.testDrivesLogrado), String.valueOf(r.testDrivesConquista), String.valueOf(r.testDrivesLealtad), '0', r.testDrivesPorcentaje, 0, 0, 0);
-           uiTableScore.addRecord('Ofertas','', '','', '', String.valueOf(r.ofertas), String.valueOf(r.ofertasLogrado), String.valueOf(r.ofertasConquista), String.valueOf(r.ofertasLealtad), '0', r.ofertasPorcentaje, 0, 0, 0);
-           uiTableScore.addRecord('Ventas','', '','', '', String.valueOf(r.ventas), String.valueOf(r.ventasLogrado), String.valueOf(r.ventasConquista), String.valueOf(r.ventasLealtad), '0', r.ventasPorcentaje, 0, 0, 0);
+           uiTableScore.addRecord('Invitados','Invitados', 'Conquista','Lealtad', '', String.valueOf(r.prospectos), String.valueOf(r.prospectosLogrado), String.valueOf(r.prospectosConquista),String.valueOf(r.prospectosLealtad),'0', r.prospectosPorcentaje, 0 , 0, 0, '');
+           uiTableScore.addRecord('Confirmados','', '','', '', String.valueOf(r.leadsCalificados), String.valueOf(r.leadsCalificadosLogrado), String.valueOf(r.leadsCalificadosConquista), String.valueOf(r.leadsCalificadosLealtad), '0', r.leadsCalificadosPorcentaje, 0, 0, 0, '');
+           uiTableScore.addRecord('Asistentes','', '','', '', String.valueOf(r.voice), String.valueOf(r.voiceLogrado), String.valueOf(r.voiceConquista), String.valueOf(r.voiceLealtad), '0', r.voicePorcentaje, 0, 0, 0, '');
+           uiTableScore.addRecord('Test Drive','', '','', '', String.valueOf(r.testDrives), String.valueOf(r.testDrivesLogrado), String.valueOf(r.testDrivesConquista), String.valueOf(r.testDrivesLealtad), '0', r.testDrivesPorcentaje, 0, 0, 0, '');
+           uiTableScore.addRecord('Ofertas','', '','', '', String.valueOf(r.ofertas), String.valueOf(r.ofertasLogrado), String.valueOf(r.ofertasConquista), String.valueOf(r.ofertasLealtad), '0', r.ofertasPorcentaje, 0, 0, 0, '');
+           uiTableScore.addRecord('Ventas','', '','', '', String.valueOf(r.ventas), String.valueOf(r.ventasLogrado), String.valueOf(r.ventasConquista), String.valueOf(r.ventasLealtad), '0', r.ventasPorcentaje, 0, 0, 0, '');
            
            tablasCampanias.add(uiTableScore);
            index++;
@@ -1840,6 +1863,136 @@ public with sharing class Scorecards {
         this.urlTotalVentasRetail += '&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c;
         this.urlTotalVentasWholesale = this.urlTotalVentasRetail + '&pv4=' + 'Wholesale';
         this.urlTotalVentasRetail += '&pv4=' + 'Retail';
+
+        reportMetadata = reportURL.get('SC_VE_Entregas');
+        this.urlTotalVentasEntregas = reportMetadata.Link__c;
+        this.urlTotalVentasEntregas += '?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + selectedSucursales;
+        this.urlTotalVentasEntregas += '&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + selectedTiposProducto;
+        this.urlTotalVentasEntregas += '&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaIni;
+        this.urlTotalVentasEntregas += '&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;
+
+        reportMetadata = reportURL.get('Ventas_Cash_Terminaciones_FS');
+        this.urlTotalVentasCash = reportMetadata.Link__c;
+        this.urlTotalVentasCash += '?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + selectedSucursales;
+        this.urlTotalVentasCash += '&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + selectedTiposProducto;
+        this.urlTotalVentasCash += '&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaIni;
+        this.urlTotalVentasCash += '&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;
+        this.urlTotalVentasTerminacionesFS = urlTotalVentasCash + '&pc4='+reportMetadata.pc4__c+'&pn4=' + 'ne' + '&pv4=' + 'Contado';
+        this.urlTotalVentasCash += '&pc4='+reportMetadata.pc4__c+'&pn4=' + 'eq' + '&pv4=' + 'Contado';
     }
+
+    private String buildReportURLFuenteOrigen(String report, String fuenteOrigen) 
+    {
+       Report_Link__mdt reportMetadata;
+       String urlReport = '';
+       reportMetadata = reportURL.get(report);
+
+       String strFechaIni = dateini.month() + '/' + dateIni.day() + '/' + dateIni.year();
+       String strFechaFin = dateEnd.month() + '/' + dateEnd.day() + '/' + dateEnd.year();
+
+       if(reportMetadata != null)
+       {
+          if(report == SC_FO_TD)
+          {
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + selectedSucursales;
+             urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + selectedTiposProducto;
+             urlReport = urlReport +'&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' + EncodingUtil.urlEncode(fuenteOrigenMap.get(fuenteOrigen),'UTF-8');
+          }
+          if(report == OP_FO_M_PROSPECTOS)
+          {
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + selectedSucursales;
+             urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + EncodingUtil.urlEncode(fuenteOrigen,'UTF-8');
+          }
+          if(report == OP_FO_M_LEADS)
+          {
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + EncodingUtil.urlEncode(fuenteOrigen,'UTF-8');
+             urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + selectedSucursales;
+          }
+          if(report == OP_FO_M_VENTAS)
+          {
+             urlReport = reportMetadata.Link__c +'?pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + selectedSucursales;
+             urlReport = urlReport +'&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' + EncodingUtil.urlEncode(fuenteOrigen,'UTF-8');
+             //urlReport = urlReport +'&pc5='+reportMetadata.pc5__c+'&pn5=' + reportMetadata.pn5__c + '&pv5=' + tiposProducto;
+          }
+
+       }
+
+       System.debug('URL Report [' + urlReport + ']');
+       return urlReport;
+    }
+
+
+    private String buildReportURLEjecutivos(String report, String userName) 
+    {
+       Report_Link__mdt reportMetadata;
+       String urlReport = '';
+       reportMetadata = reportURL.get(report);
+
+       String strFechaIni = dateini.month() + '/' + dateIni.day() + '/' + dateIni.year();
+       String strFechaFin = dateEnd.month() + '/' + dateEnd.day() + '/' + dateEnd.year();
+
+       if(reportMetadata != null)
+       {
+          if(report == OP_M_TD)
+          {
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + EncodingUtil.urlEncode(userName,'UTF-8');
+             urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + selectedSucursales;
+          }
+          if(report == OP_M_PROSPECTOS)
+          {
+            //Calificado (&lt; 3 meses), converted = false, central
+             urlReport = reportMetadata.Link__c +'?pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + EncodingUtil.urlEncode(userName,'UTF-8');
+             //urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + userName;
+          }
+          if(report == OP_M_LEADS)
+          {
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + EncodingUtil.urlEncode(userName,'UTF-8');
+             urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + selectedSucursales;
+             urlReport = urlReport +'&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' + selectedTiposProducto;
+          }
+          if(report == OP_M_VENTAS)
+          {
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + EncodingUtil.urlEncode(userName,'UTF-8');
+             urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + OPP_CERRADA_GANADA;              
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaIni;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;
+             urlReport = urlReport +'&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' + selectedSucursales;
+          }
+
+          if(report == OP_M_ENTREGAS)
+          {
+             urlReport = reportMetadata.Link__c +'?pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaIni;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;              
+             urlReport = urlReport +'&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' +selectedTiposProducto;
+             urlReport = urlReport +'&pc5='+reportMetadata.pc5__c+'&pn5=' + reportMetadata.pn5__c + '&pv5=' + EncodingUtil.urlEncode(userName,'UTF-8');
+          }
+          if(report == OP_M_VOC)
+          {
+             urlReport = reportMetadata.Link__c +'?pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;              
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' +selectedTiposProducto;
+             urlReport = urlReport +'&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' + EncodingUtil.urlEncode(userName,'UTF-8');
+          }
+
+       }
+
+       System.debug('URL Report Ejecutivo SC [' + urlReport + ']');
+       return urlReport;
+    }
+
 
 }

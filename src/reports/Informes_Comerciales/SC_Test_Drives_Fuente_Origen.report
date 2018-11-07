@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>User$Name</field>
+    </columns>
+    <columns>
+        <field>User.Opportunity$CreatedById$Name</field>
+    </columns>
+    <columns>
+        <field>User.Opportunity$CreatedById.Pruebas_de_manejo__r$Name</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>User*User$Sucursal__c</column>
+            <operator>contains</operator>
+            <value>CENTRAL,CDE,BPS</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Opportunity$CreatedById.Pruebas_de_manejo__r$CreatedDate</column>
+            <operator>greaterOrEqual</operator>
+            <value>1/1/2018 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Opportunity$CreatedById.Pruebas_de_manejo__r$CreatedDate</column>
+            <operator>lessOrEqual</operator>
+            <value>12/31/2018 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Opportunity$CreatedById$Tipo_contacto__c</column>
+            <operator>contains</operator>
+            <value>0Km,BPS,Multimarcas,Usado BMW,No Identificado</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Opportunity$CreatedById$LeadSource</column>
+            <operator>contains</operator>
+            <value>Campañas de Marketing,Cliente Posventa,Eventos,Formulario de Facebook,Inbox de Facebook,Llamadas,Prospeccion Proactiva,Referido,Visita a piso,Web</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User$IsActive</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User$Profile</column>
+            <operator>equals</operator>
+            <value>Usuario de Ventas</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>SC Test Drives Fuente Origen</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Usuarios_Oportunidades_Test_Drives__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>User$SuAccessExpirationDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

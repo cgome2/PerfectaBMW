@@ -22,7 +22,7 @@
         
           <tr>
             <td class="textoGrande">{!rec.valueObjetivo}</td>
-            <td class="textoGrande">{!rec.valueLogrado}</td>
+            <td class="textoGrande"><apex:outputLink value="{!rec.urlLogrado}">{!rec.valueLogrado}</apex:outputLink></td>
             <td class="textoGrande">{!rec.valueConquista}</td>
             <td class="textoGrande">{!rec.valueLealtad}</td>
             <td class="textoGrande">{!rec.valueTarea}</td>

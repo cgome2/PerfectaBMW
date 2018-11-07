@@ -227,16 +227,16 @@ input{
           <apex:repeat value="{!sourceList}" var="fIter">
           <tr>
             <td class="texto">
-                <apex:outputText style="width:70px;" value="{!leadsProgress[fIter]}"/>
+                <apex:outputLink value="{!sourceLinkReports[fIter].urlProspectos}"><apex:outputText style="width:70px;" value="{!leadsProgress[fIter]}"/></apex:outputLink>
             </td>
             <td class="texto">
-                <apex:outputText style="width:100px;" value="{!qualifiedLeadsProgress[fIter]}"/>
+                <apex:outputLink value="{!sourceLinkReports[fIter].urlLeads}"><apex:outputText style="width:100px;" value="{!qualifiedLeadsProgress[fIter]}"/></apex:outputLink>
             </td>
             <td class="texto">
-                <apex:outputText style="width:70px;" value="{!testDrivesProgress[fIter]}"/>
+                <apex:outputLink value="{!sourceLinkReports[fIter].urlTestDrives}"><apex:outputText style="width:70px;" value="{!testDrivesProgress[fIter]}"/></apex:outputLink>
             </td>
             <td class="texto">
-                <apex:outputText style="width:70px;" value="{!salesProgress[fIter]}"/>
+                <apex:outputLink value="{!sourceLinkReports[fIter].urlVentas}"><apex:outputText style="width:70px;" value="{!salesProgress[fIter]}"/></apex:outputLink>
             </td>
           </tr>
           </apex:repeat>

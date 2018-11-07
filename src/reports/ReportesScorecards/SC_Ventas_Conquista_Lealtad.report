@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>User$Name</field>
+    </columns>
+    <columns>
+        <field>User.Contact$CreatedById$Name</field>
+    </columns>
+    <columns>
+        <field>User.Contact$CreatedById.OpportunityContactRoles$Name</field>
+    </columns>
+    <columns>
+        <field>User.Contact$CreatedById.OpportunityContactRoles*Opportunity$Sucursalv2__c</field>
+    </columns>
+    <columns>
+        <field>User.Contact$CreatedById.OpportunityContactRoles*Opportunity$Tipo_contacto__c</field>
+    </columns>
+    <columns>
+        <field>User.Contact$CreatedById.OpportunityContactRoles*Opportunity$Fecha_de_Venta__c</field>
+    </columns>
+    <description>Ventas con más de un contacto activo lealtad : con un contacto activo conquista</description>
+    <filter>
+        <criteriaItems>
+            <column>User*User$Sucursal__c</column>
+            <operator>contains</operator>
+            <value>CENTRAL,CDE,BPS</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Contact$CreatedById.OpportunityContactRoles*Opportunity$Tipo_contacto__c</column>
+            <operator>contains</operator>
+            <value>0Km,BPS,Multimarcas,Usado BMW,No Identificado</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Contact$CreatedById.OpportunityContactRoles*Opportunity$Fecha_de_Venta__c</column>
+            <operator>greaterOrEqual</operator>
+            <value>1/1/2018 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Contact$CreatedById.OpportunityContactRoles*Opportunity$Fecha_de_Venta__c</column>
+            <operator>lessOrEqual</operator>
+            <value>12/31/2018 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Contact$CreatedById$Activos__c</column>
+            <operator>greaterOrEqual</operator>
+            <value>2</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User$IsActive</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User$Profile</column>
+            <operator>equals</operator>
+            <value>Usuario de Ventas</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User.Contact$CreatedById.OpportunityContactRoles$StageName</column>
+            <operator>equals</operator>
+            <value>Cerrada/Ganada</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>SCVentasConquistaLealtad</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Usuarios_Contactos_Oportunidades__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <sortColumn>User.Contact$CreatedById$Name</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>User.Contact$CreatedById$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

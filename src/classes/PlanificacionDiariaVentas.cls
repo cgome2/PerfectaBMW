@@ -594,13 +594,13 @@ public class PlanificacionDiariaVentas
             objClsMonth.urlLeads = buildReportURL(OP_M_LEADS , objClsMonth.ejecutivoName);
             objClsMonth.urlTestDrives = buildReportURL(OP_M_TD , objClsMonth.ejecutivoName);
             objClsMonth.urlVentas = buildReportURL(OP_M_VENTAS , objClsMonth.ejecutivoName);
-            //objClsMonth.urlEntregas = buildReportURL(OP_M_ENTREGAS , objClsMonth.ejecutivoName);
-            //objClsMonth.urlVOC = buildReportURL(OP_M_VOC , objClsMonth.ejecutivoName);
+            objClsMonth.urlEntregas = buildReportURL(OP_M_ENTREGAS , objClsMonth.ejecutivoName);
+            objClsMonth.urlVOC = buildReportURL(OP_M_VOC , objClsMonth.ejecutivoName);
         }
     }
 
 
-    private String buildReportURL(String report, String userName)
+    private String buildReportURL(String report, String userName) 
     {
        Report_Link__mdt reportMetadata;
        String urlReport = '';
@@ -611,15 +611,26 @@ public class PlanificacionDiariaVentas
 
        fechaIni = dateIni;
        fechaFin = dateEnd;
+       String tiposProd;
 
        String strFechaIni = fechaIni.month() + '/' + fechaIni.day() + '/' + fechaIni.year();
-       String strFechaFin = fechaFin.month() + '/' + fechaFin.day() + '/' + fechaFin.year();      
+       String strFechaFin = fechaFin.month() + '/' + fechaFin.day() + '/' + fechaFin.year();
+
+       if(selectedSucursal == 'CENTRAL' || selectedSucursal == 'CDE')
+       {
+          tiposProd = '0KM';
+       }
+       if(selectedSucursal == 'BPS')
+       {
+          tiposProd = 'BPS';
+       }
+
 
        if(reportMetadata != null)
        {
           if(report == OP_M_TD)
           {
-             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + userName;
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + EncodingUtil.urlEncode(userName,'UTF-8');
              urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
              urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
              urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + userSucursal;
@@ -629,24 +640,41 @@ public class PlanificacionDiariaVentas
             //Calificado (&lt; 3 meses), converted = false, central
              urlReport = reportMetadata.Link__c +'?pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
              urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
-             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + userName;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + EncodingUtil.urlEncode(userName,'UTF-8');
              //urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + userName;
           }
           if(report == OP_M_LEADS)
           {
-             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + userName;
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + EncodingUtil.urlEncode(userName,'UTF-8');
              urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
              urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
              urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + userSucursal;
+             urlReport = urlReport +'&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' + tiposProd;
           }
           if(report == OP_M_VENTAS)
           {
-             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + userName;
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + EncodingUtil.urlEncode(userName,'UTF-8');
              urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + OPP_CERRADA_GANADA;              
              urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaIni;
              urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;
              urlReport = urlReport +'&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' + userSucursal;
           }
+
+          if(report == OP_M_ENTREGAS)
+          {
+             urlReport = reportMetadata.Link__c +'?pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaIni;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;              
+             urlReport = urlReport +'&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' +tiposProd;
+             urlReport = urlReport +'&pc5='+reportMetadata.pc5__c+'&pn5=' + reportMetadata.pn5__c + '&pv5=' + EncodingUtil.urlEncode(userName,'UTF-8');
+          }
+          if(report == OP_M_VOC)
+          {
+             urlReport = reportMetadata.Link__c +'?pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;              
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' +tiposProd;
+             urlReport = urlReport +'&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' + EncodingUtil.urlEncode(userName,'UTF-8');
+          }
+
        }
 
        System.debug('URL Report [' + urlReport + ']');

@@ -4,13 +4,7 @@
         <field>OPPORTUNITY_NAME</field>
     </columns>
     <columns>
-        <field>OWNER_ACTIVE</field>
-    </columns>
-    <columns>
         <field>TYPE</field>
-    </columns>
-    <columns>
-        <field>OWNER_PROFILE</field>
     </columns>
     <columns>
         <field>LEAD_SOURCE</field>
@@ -22,22 +16,16 @@
         <field>CLOSE_DATE</field>
     </columns>
     <columns>
+        <field>NEXT_STEP</field>
+    </columns>
+    <columns>
         <field>STAGE_NAME</field>
-    </columns>
-    <columns>
-        <field>PROBABILITY</field>
-    </columns>
-    <columns>
-        <field>FISCAL_QUARTER</field>
-    </columns>
-    <columns>
-        <field>AGE</field>
     </columns>
     <columns>
         <field>CREATED_DATE</field>
     </columns>
     <columns>
-        <field>Opportunity.Tipo_contacto__c</field>
+        <field>FULL_NAME</field>
     </columns>
     <columns>
         <field>ROLLUP_DESCRIPTION</field>
@@ -45,40 +33,36 @@
     <columns>
         <field>ACCOUNT_NAME</field>
     </columns>
+    <description>Ventas Ejecutivo Fuente Origen</description>
     <filter>
-        <criteriaItems>
-            <column>User.Sucursal__c</column>
-            <operator>contains</operator>
-            <value>CENTRAL,CDE,BPS</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Opportunity.Tipo_contacto__c</column>
-            <operator>contains</operator>
-            <value>0Km,BPS,Multimarcas,Usado BMW,No Identificado</value>
-        </criteriaItems>
         <criteriaItems>
             <column>STAGE_NAME</column>
             <operator>equals</operator>
             <value>Cerrada/Ganada</value>
         </criteriaItems>
         <criteriaItems>
-            <column>OWNER_ACTIVE</column>
-            <operator>equals</operator>
-            <value>1</value>
+            <column>Opportunity.Fecha_de_Venta__c</column>
+            <operator>greaterOrEqual</operator>
+            <value>9/1/2018 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
-            <column>OWNER_PROFILE</column>
+            <column>Opportunity.Fecha_de_Venta__c</column>
+            <operator>lessOrEqual</operator>
+            <value>9/30/2018 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.Sucursalv2__c</column>
             <operator>equals</operator>
-            <value>Usuario de Ventas</value>
+            <value>CENTRAL</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>LEAD_SOURCE</column>
+            <operator>contains</operator>
+            <value>Prospeccion Proactiva</value>
         </criteriaItems>
     </filter>
-    <format>Summary</format>
-    <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>FULL_NAME</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsDown>
-    <name>VentasConquista</name>
+    <format>Tabular</format>
+    <name>Ventas Ejecutivo Fuente Origen</name>
     <params>
         <name>open</name>
         <value>all</value>
@@ -96,8 +80,6 @@
     <showDetails>true</showDetails>
     <timeFrameFilter>
         <dateColumn>CLOSE_DATE</dateColumn>
-        <endDate>2018-12-31</endDate>
         <interval>INTERVAL_CUSTOM</interval>
-        <startDate>2018-01-01</startDate>
     </timeFrameFilter>
 </Report>

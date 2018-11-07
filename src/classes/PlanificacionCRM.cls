@@ -54,6 +54,12 @@ public class PlanificacionCRM {
 	public Map<String, Decimal> testDrivesProgressPerc {get;set;}
 	public Map<String, Decimal> salesProgressPerc {get;set;}
 
+    //tipos de producto
+    public List<String> tiposProducto {get;set;}
+    public List<String> tiposProductoCENTRAL {get;set;}
+    public List<String> tiposProductoBPS {get;set;}    
+
+
     //periods
     public list<SelectOption> yearsPeriodOpts {get;set;}
     public String selectedYear {get;set;}
@@ -65,11 +71,30 @@ public class PlanificacionCRM {
     //private Date dateIni;
     //private Date dateEnd;
 
+    // URL reports --------------------------------------------------------------
+	public Map<String, ReportURLContainer> sourceLinkReports {get; set;}
+    public Map<String, Report_Link__mdt> reportURL {get; set;}
+
+    private static final String OP_FO_M_PROSPECTOS = 'OP_FO_M_Prospectos';
+    private static final String OP_FO_M_LEADS = 'OP_FO_M_Leads';
+    private static final String OP_FO_M_TD = 'OP_FO_M_TD';
+    private static final String OP_FO_M_VENTAS = 'OP_FO_M_Ventas';
+    private static final String OP_FO_M_ENTREGAS = 'OP_FO_M_Entregas';
+    private static final String OP_FO_M_VOC = 'OP_FO_M_VOC';
+
+
 	public PlanificacionCRM(){
+
+        tiposProducto = new List<String>();
+        tiposProductoCENTRAL = new List<String>();
+        tiposProductoBPS = new List<String>();
+
 		Date fechaActual = Date.Today();
 		currentIntMonth = fechaActual.month();
 		currentIntYear = fechaActual.year();
 		currentStrMonth = UtilFunctions.getMonth(currentIntMonth);
+
+		reportURL = PerfectaDAO.getCustomMetadata();
 		//dateIni = Date.newInstance(currentIntYear, currentIntMonth, 1);
 		//dateEnd = Date.newInstance(currentIntYear, currentIntMonth + 1, 1).addDays(-1);
 
@@ -84,18 +109,31 @@ public class PlanificacionCRM {
         setDateInterval();								
 
 		initSucursales();
+        initTiposProducto();
 		selectedSucursal = CENTRAL;
-		executiveIds = getExecsSucursal(selectedSucursal);
+		//executiveIds = getExecsSucursal(selectedSucursal);
+		executiveIds = getUsersId(selectedSucursal, USUARIO_VENTAS);
 		typesProductStr = getAllProductTypes();
 		sourceList = PerfectaDAO.getFuentesOrigen();
 		initObjetivos();
 		initAvance();
 		summaryCalc();
+        setURLReports();
 		system.debug('FUENTES >> ' + sourceList);
 		system.debug('Test Drive Map >> ' + testDrivesProgress);
 	}
 
 
+    private List<Id> getUsersId(String sucursal, String profile)
+	{
+		List<Id> ids = new List<Id>();
+		List<User> users = PerfectaDAO.getUsers(sucursal, profile);
+        for(User u : users)
+		{
+            ids.add(u.Id);
+		}
+		return ids;
+	}
 
     private list<SelectOption> initPeriodOpts() {
     
@@ -152,6 +190,25 @@ public class PlanificacionCRM {
 			}
 		}
 	}
+
+    private void initTiposProducto()
+    {
+        Schema.DescribeFieldResult tpList = Schema.Opportunity.Tipo_contacto__c.getDescribe();
+        List<Schema.PicklistEntry> plValues = tpList.getPicklistValues();
+        for( Schema.PicklistEntry pickListVal : plValues)
+        {
+           tiposProducto.add(pickListVal.getValue());
+           if(pickListVal.getValue() == '0KM')
+           {
+               tiposProductoCENTRAL.add(pickListVal.getValue());
+           }
+           if(pickListVal.getValue() == 'BPS')
+           {
+               tiposProductoBPS.add(pickListVal.getValue());
+           }
+        }
+    }
+
 
 	private void initObjetivos(){
 		objetivos = new Map<String, Objetivo__c>();
@@ -332,6 +389,7 @@ public class PlanificacionCRM {
        System.debug('CHM SELYEAR[' + selectedYear +'] PER[' + periodo +'] SELMONTH[' + selectedMonth +']');       
 
        setDateInterval();
+        setURLReports();       
        if(!Test.isRunningTest()){
            calculate();
        }     
@@ -374,5 +432,89 @@ public class PlanificacionCRM {
        }
     }
 
+    // --------------------------------------------------------------- URL reports
+
+    private void setURLReports()
+    {
+        ReportURLContainer urlContainer;
+        sourceLinkReports = new Map<String, ReportURLContainer>();
+        for(String src : sourceList)
+        {
+            urlContainer = new ReportURLContainer();
+            urlContainer.urlProspectos = buildReportURL(OP_FO_M_PROSPECTOS , src);
+            urlContainer.urlLeads = buildReportURL(OP_FO_M_LEADS , src);
+            urlContainer.urlTestDrives = buildReportURL(OP_FO_M_TD , src);
+            urlContainer.urlVentas = buildReportURL(OP_FO_M_VENTAS , src);
+            sourceLinkReports.put(src, urlContainer);
+        }
+    }
+
+
+    private String buildReportURL(String report, String fuenteOrigen) 
+    {
+       Report_Link__mdt reportMetadata;
+       String urlReport = '';
+       reportMetadata = reportURL.get(report);
+
+       Date fechaIni;
+       Date fechaFin;
+
+       fechaIni = dateIni;
+       fechaFin = dateEnd;
+
+       String strFechaIni = fechaIni.month() + '/' + fechaIni.day() + '/' + fechaIni.year();
+       String strFechaFin = fechaFin.month() + '/' + fechaFin.day() + '/' + fechaFin.year();
+
+       //tiposProducto
+
+       System.debug('TIPOS PROD REP [' + tiposProducto + ']');
+
+       if(reportMetadata != null)
+       {
+          if(report == OP_FO_M_TD)
+          {
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + EncodingUtil.urlEncode(fuenteOrigen,'UTF-8');
+             urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + selectedSucursal;
+          }
+          if(report == OP_FO_M_PROSPECTOS)
+          {
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + selectedSucursal;
+             urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + EncodingUtil.urlEncode(fuenteOrigen,'UTF-8');
+          }
+          if(report == OP_FO_M_LEADS)
+          {
+             urlReport = reportMetadata.Link__c +'?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + EncodingUtil.urlEncode(fuenteOrigen,'UTF-8');
+             urlReport = urlReport +'&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + selectedSucursal;
+          }
+          if(report == OP_FO_M_VENTAS)
+          {
+             urlReport = reportMetadata.Link__c +'?pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + strFechaIni;
+             urlReport = urlReport +'&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaFin;
+             urlReport = urlReport +'&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + selectedSucursal;
+             urlReport = urlReport +'&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' + EncodingUtil.urlEncode(fuenteOrigen,'UTF-8');
+             //urlReport = urlReport +'&pc5='+reportMetadata.pc5__c+'&pn5=' + reportMetadata.pn5__c + '&pv5=' + tiposProducto;
+          }
+
+       }
+
+       System.debug('URL Report [' + urlReport + ']');
+       return urlReport;
+    }
+
+
+    public class ReportURLContainer
+    {
+        //------ URL reports -----------------------
+        public String urlProspectos {get;set;}
+        public String urlLeads {get;set;}
+        public String urlTestDrives {get;set;}
+        public String urlVentas {get;set;}
+    }
 
 }

@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>pc4__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">00Nf4000008TcR7</value>
     </values>
     <values>
         <field>pc5__c</field>
@@ -40,7 +40,7 @@
     </values>
     <values>
         <field>pn2__c</field>
-        <value xsi:type="xsd:string">lt</value>
+        <value xsi:type="xsd:string">le</value>
     </values>
     <values>
         <field>pn3__c</field>
@@ -48,7 +48,7 @@
     </values>
     <values>
         <field>pn4__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">co</value>
     </values>
     <values>
         <field>pn5__c</field>

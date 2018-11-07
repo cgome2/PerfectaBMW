@@ -320,15 +320,15 @@ input{
            <td class="texto" width="120"><apex:outputLink value="{!objetivo.urlLeads}"><apex:outputText value="{!objetivo.leadsCalificadosPorEjecutivo}"/></apex:outputLink></td>
            <td class="texto" width="120"><apex:outputLink value="{!objetivo.urlTestDrives}"><apex:outputText value="{!objetivo.testDrivesPorEjecutivo}"/></apex:outputLink></td>
            <td class="texto" width="120"><apex:outputLink value="{!objetivo.urlVentas}"><apex:outputText value="{!objetivo.ventasPorEjecutivo}" /></apex:outputLink></td>
-           <td class="texto" width="120"><apex:outputText value="{!objetivo.entregasPorEjecutivo}" /></td>
-           <td class="texto" width="120"><apex:outputText value="{!objetivo.vocPorEjecutivo}" /></td>                      
+           <td class="texto" width="120"><apex:outputLink value="{!objetivo.urlEntregas}"><apex:outputText value="{!objetivo.entregasPorEjecutivo}" /></apex:outputLink></td>
+           <td class="texto" width="120"><apex:outputLink value="{!objetivo.urlVOC}"><apex:outputText value="{!objetivo.vocPorEjecutivo}" /></apex:outputLink></td>
           </tr>
          </apex:repeat>
         </tbody>
 
         <tfoot>
           <tr>
-            <td class="total"><apex:outputText value="{!totCumpProspectos}"/></td>
+            <td class="total"><apex:outputText value="{!totCumpProspectos}"/></td> 
             <td class="total"><apex:outputText value="{!totCumpLeads}"/></td>
             <td class="total"><apex:outputText value="{!totCumpTestDrives}"/></td>
             <td class="total"><apex:outputText value="{!totCumpVentas}"/></td>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Opportunity$Name</field>
+    </columns>
+    <columns>
+        <field>Opportunity.Quotes$Name</field>
+    </columns>
+    <columns>
+        <field>Opportunity$Id</field>
+    </columns>
+    <columns>
+        <field>Opportunity.Quotes$Forma_de_pago__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>Opportunity$Sucursalv2__c</column>
+            <operator>contains</operator>
+            <value>CENTRAL,CDE,BPS</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.Quotes$Tipo_de_Producto_Vendido__c</column>
+            <operator>contains</operator>
+            <value>0Km,BPS,Multimarcas,Usado BMW,No Identificado</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity$StageName</column>
+            <operator>equals</operator>
+            <value>Cerrada/Ganada</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>Ventas Cash</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Oportunidad_y_Presupuestos__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Opportunity$X48horas__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>
