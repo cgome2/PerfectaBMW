@@ -98,6 +98,8 @@ public with sharing class Scorecards {
     public String urlTotalVentasEntregas {get;set;}
     public String urlTotalVentasCash {get;set;}
     public String urlTotalVentasTerminacionesFS {get;set;}
+    public String urlTotalVentasConquista {get;set;}
+    public String urlTotalVentasLealtad {get;set;}
 
     private static final String OP_M_PROSPECTOS = 'OP_M_Prospectos';
     private static final String OP_M_LEADS = 'OP_M_Leads';
@@ -1879,6 +1881,16 @@ public with sharing class Scorecards {
         this.urlTotalVentasCash += '&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;
         this.urlTotalVentasTerminacionesFS = urlTotalVentasCash + '&pc4='+reportMetadata.pc4__c+'&pn4=' + 'ne' + '&pv4=' + 'Contado';
         this.urlTotalVentasCash += '&pc4='+reportMetadata.pc4__c+'&pn4=' + 'eq' + '&pv4=' + 'Contado';
+
+        reportMetadata = reportURL.get('SC_VE_ConquistaLealtad');
+        this.urlTotalVentasConquista = reportMetadata.Link__c;
+        this.urlTotalVentasConquista += '?pc0='+reportMetadata.pc0__c+'&pn0=' + reportMetadata.pn0__c + '&pv0=' + selectedSucursales;
+        this.urlTotalVentasConquista += '&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + selectedTiposProducto;
+        this.urlTotalVentasConquista += '&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaIni;
+        this.urlTotalVentasConquista += '&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;
+        this.urlTotalVentasLealtad = urlTotalVentasConquista + '&pc4='+reportMetadata.pc4__c+'&pn4=' + 'ge' + '&pv4=' + '2';
+        this.urlTotalVentasConquista += '&pc4='+reportMetadata.pc4__c+'&pn4=' + 'le' + '&pv4=' + '1';
+
     }
 
     private String buildReportURLFuenteOrigen(String report, String fuenteOrigen) 

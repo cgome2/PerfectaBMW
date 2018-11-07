@@ -276,7 +276,7 @@
                </tr>
                <tr>
                  <td class="textoTituloCelda" width="110">Ventas Conquista</td>
-                 <td class="textoGrande" width="80">{!totalVentasConquista}</td>
+                 <td class="textoGrande"><apex:outputLink value="{!urlTotalVentasConquista}"><apex:outputText value="{!totalVentasConquista}"/></apex:outputLink></td>
                  <td class="texto" width="80">
                    <apex:outputText value="{0,number, 0.0}%">
                      <apex:param value="{!totalVentasConquistaPorcentaje}"/>
@@ -285,12 +285,12 @@
                </tr>
                <tr>
                  <td class="textoTituloCelda">Ventas Lealtad</td>
-                 <td class="textoGrande">{!totalVentasLealtad}</td>
+                 <td class="textoGrande"><apex:outputLink value="{!urlTotalVentasLealtad}"><apex:outputText value="{!totalVentasLealtad}"/></apex:outputLink></td>
                  <td class="texto">
                    <apex:outputText value="{0,number, 0.0}%">
                      <apex:param value="{!totalVentasLealtadPorcentaje}"/>
                    </apex:outputText>
-                 </td>
+                 </td> 
                </tr>
              </tbody>
            </table>
