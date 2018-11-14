@@ -1,11 +1,11 @@
 {
     "projectName": "PerfectaBMW",
     "username": "infolastic@perfecta.com.py.stage",
-    "id": "b2157ba0-d7cd-11e8-80be-278d8fb922b1",
+    "id": "1e067c10-e7d2-11e8-929f-85e6154ec37e",
     "namespace": "",
     "orgType": "developer",
     "loginUrl": "https://login.salesforce.com/",
-    "instanceUrl": "https://perfecta-bmw--stage.cs25.my.salesforce.com",
+    "instanceUrl": "https://perfecta-bmw--stage.cs54.my.salesforce.com",
     "workspace": "/Users/ramses/Documents",
     "subscription": [
         "ApexClass",
@@ -14,6 +14,7 @@
         "ApexTrigger",
         "CustomMetadata",
         "Report",
+        "ReportType",
         "StaticResource"
     ]
 }

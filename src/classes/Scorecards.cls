@@ -175,7 +175,6 @@ public with sharing class Scorecards {
             String current = String.valueOf((currMonth/3) + 1);
             opts.add(new SelectOption('Q' + current, 'Trimestre Actual (Q' + current +  ')'));
         }
-        //System.debug('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
         //opts.add(new SelectOption('AC', 'Año completo - 2018')); 
         return opts;
     }
@@ -296,10 +295,10 @@ public with sharing class Scorecards {
        }
 
        List<Integer> resultsConquistaLealtad = PerfectaDAO.getNumeroVentasConquistaLealtad(idUsers, typesProductStr, OPP_CERRADA_GANADA, USUARIO_VENTAS, dateIni, dateEnd);
-       //ventas lealtad basadas en las cuentas asociadas a oportunidades cerradas/ganadas
-       totalVentasLealtad = resultsConquistaLealtad.get(0);
        //ventas conquista basadas en las cuentas asociadas a oportunidades cerradas/ganadas
-       totalVentasConquista = resultsConquistaLealtad.get(1);
+       totalVentasConquista = resultsConquistaLealtad.get(0);
+       //ventas lealtad basadas en las cuentas asociadas a oportunidades cerradas/ganadas
+       totalVentasLealtad = resultsConquistaLealtad.get(1);
        
        totalVentasConquistaPorcentaje = getPorcentajeTotalesVentas(totalVentasConquista, totalVentasLealtad);
        totalVentasLealtadPorcentaje = getPorcentajeTotalesVentas(totalVentasLealtad, totalVentasConquista);
@@ -1888,8 +1887,8 @@ public with sharing class Scorecards {
         this.urlTotalVentasConquista += '&pc1='+reportMetadata.pc1__c+'&pn1=' + reportMetadata.pn1__c + '&pv1=' + selectedTiposProducto;
         this.urlTotalVentasConquista += '&pc2='+reportMetadata.pc2__c+'&pn2=' + reportMetadata.pn2__c + '&pv2=' + strFechaIni;
         this.urlTotalVentasConquista += '&pc3='+reportMetadata.pc3__c+'&pn3=' + reportMetadata.pn3__c + '&pv3=' + strFechaFin;
-        this.urlTotalVentasLealtad = urlTotalVentasConquista + '&pc4='+reportMetadata.pc4__c+'&pn4=' + 'ge' + '&pv4=' + '2';
-        this.urlTotalVentasConquista += '&pc4='+reportMetadata.pc4__c+'&pn4=' + 'le' + '&pv4=' + '1';
+        this.urlTotalVentasLealtad = urlTotalVentasConquista + '&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' + '1';
+        this.urlTotalVentasConquista += '&pc4='+reportMetadata.pc4__c+'&pn4=' + reportMetadata.pn4__c + '&pv4=' + '2';
 
     }
 
@@ -2008,3 +2007,20 @@ public with sharing class Scorecards {
 
 
 }
+
+
+/*
+list<Opportunity> lo = [SELECT Id,
+                        SyncedQuote.Contact.Nombre_y_Apellido__c
+                       FROM Opportunity
+                       WHERE SyncedQuoteId != null];
+
+system.debug(lo[0].SyncedQuote.Contact.Nombre_y_Apellido__c);
+
+
+
+SELECT Id,
+       SyncedQuote.Contact.Nombre_y_Apellido__c
+  FROM Opportunity
+ WHERE SyncedQuoteId != null
+*/

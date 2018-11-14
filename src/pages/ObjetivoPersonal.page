@@ -124,11 +124,23 @@ function drawChartDiffDaily() {
           {
             offset = 1;
           }
+          if(selectedItem.row == 2)
+          {
+              offset = 1;
+          }
           if(selectedItem.row == 3)
           {
               offset = 2;
           }
+          if(selectedItem.row == 4)
+          {
+              offset = 2;
+          }
           if(selectedItem.row == 5)
+          {
+              offset = 3;
+          }
+          if(selectedItem.row == 6)
           {
               offset = 3;
           }
@@ -218,15 +230,28 @@ function drawChartDiffDaily() {
           var offset = 0;
           console.log('Selection >> ' + barChartDiff.getSelection());
           var selectedItem = barChartDiff.getSelection()[0];
+          console.log('selectedRow [' + selectedItem.row + ']');
           if(selectedItem.row == 1)
           {
             offset = 1;
+          }
+          if(selectedItem.row == 2)
+          {
+              offset = 1;
           }
           if(selectedItem.row == 3)
           {
               offset = 2;
           }
+          if(selectedItem.row == 4)
+          {
+              offset = 2;
+          }
           if(selectedItem.row == 5)
+          {
+              offset = 3;
+          }
+          if(selectedItem.row == 6)
           {
               offset = 3;
           }

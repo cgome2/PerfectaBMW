@@ -4,7 +4,7 @@ private class TestScorecards {
     /**
     *   Improve this (and TestUtil as needed) to make meaningful assertions and validate implementation
     */
-    @isTest static void testInitScorecards() {
+    @isTest static void testInitScorecards() { 
         TestUtil tu = new TestUtil();
         tu.initPruebaEjecutivos();
         test.startTest();
@@ -23,7 +23,7 @@ private class TestScorecards {
         UITableScorecard uits = new UITableScorecard('Title', 0);
         uits.addRecord('1000', '500', '250', '125', '75',
                         '100%', '200%', '300%', '400%', '500%',
-                        1000, 500, 250, 125);
+                        1000, 500, 250, 125, '');
         tables.add(uits);
 
         ScorecardSingleSetTable ssst = new ScorecardSingleSetTable(tables);
@@ -36,7 +36,7 @@ private class TestScorecards {
         UITableEjecutivo uite = new UITableEjecutivo('Title', 0);
         uite.addRecord('1000', '500', '250', '125', '75',
                         '100%', '200%', '300%', '400%', '500%',
-                        1000, 500, 250, 125);
+                        1000, 500, 250, 125, '');
         ejTables.add(uite);
 
         ScorecardSetTable sst = new ScorecardSetTable(ejTables);

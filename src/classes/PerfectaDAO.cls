@@ -84,27 +84,38 @@ public class PerfectaDAO
        Integer numLealtad = 0;
        Integer numConq = 0;
        List<Integer> conquistaLealtadResults = new List<Integer>();
+
+       List<Opportunity> opps = null;
+
+       opps = [SELECT Owner.Id, 
+                      Owner.Name,
+                      SyncedQuote.Contact.Activos__c,
+                      SyncedQuoteId
+                 FROM Opportunity  
+                WHERE Owner.Id IN :idEjecutivos
+                  AND Stagename = :estadoOportunidad
+                  AND Tipo_contacto__c IN :tipoActivos
+                  AND Fecha_de_Venta__c >= :fechaInicio 
+                  AND Fecha_de_Venta__c <= :fechaFin
+                  AND SyncedQuoteId != null];
+
        
-       //Map<Id, Integer> contactsOpp = getOportunidadesPorContacto(idEjecutivos, estadoOportunidad, profileName, fechaInicio, fechaFin);
-       Map<Id, Integer> accountsOpp = getOportunidadesPorCuenta(idEjecutivos, estadoOportunidad, profileName, fechaInicio, fechaFin, tipoActivos);
-       //Map<Id, Integer> contactAssets = getCountContactAssets(contactsOpp.keySet(), tipoActivos);
-       Map<Id, Integer> accountAssets = getCountAccountAssets(accountsOpp.keySet(), tipoActivos);
-
-      for(Id acc : accountsOpp.keySet())
+      for (Opportunity op : opps) 
       {
-         if(accountAssets.get(acc) <= 1)
-         {
-            numConq += accountsOpp.get(acc);
-         }
-         else
-         {
-           numLealtad += accountsOpp.get(acc);
-         }
-
+        numAssets = (Integer)op.SyncedQuote.Contact.Activos__c;
+        if(numAssets == null || numAssets == 0 || numAssets == 1)
+        {
+           numConq += 1;
+        }
+        else
+        {
+           numLealtad += 1;
+        }
       }
-      conquistaLealtadResults.add(numConq);
-      conquistaLealtadResults.add(numLealtad);
-      return conquistaLealtadResults;
+
+       conquistaLealtadResults.add(numConq);
+       conquistaLealtadResults.add(numLealtad);
+       return conquistaLealtadResults;
     }
 
 /*
@@ -220,50 +231,40 @@ public class PerfectaDAO
 
     public static List<Integer> getVentasCash(List<String> idEjecutivos, String estadoOportunidad, Date fechaInicio, Date fechaFin, List<String> tiposProducto)
     {
+       Integer numVentas = 0;
        Integer ventasCash = 0;
        Integer ventasFs = 0;
-       List<Quote> quotes;
-       String idOpp;
-       Map<String, String> oppQuotes = new Map<String, String>();
-       List<Integer> cashFSResults = new List<Integer>();       
-       
-       quotes = [SELECT Id,
-                        OpportunityId,
-                        Forma_de_pago__c,
-                        Status,
-                        Aprobaci_n_de_Credito__c
-                   FROM Quote
-                  WHERE OpportunityId IN (SELECT Id
-                                            FROM Opportunity 
-                                           WHERE Owner.Id = :idEjecutivos
-                                             AND Tipo_contacto__c IN :tiposProducto
-                                             AND Fecha_de_Venta__c >= :fechaInicio
-                                             AND Fecha_de_Venta__c <= :fechaFin
-                                             AND Stagename = :estadoOportunidad)
-              ORDER BY OpportunityId];
+       String formaPago;       
+       List<Integer> cashFSResults = new List<Integer>();
 
-       System.debug(' NUM QUOTES [' + quotes.size() + ']');            
+       AggregateResult[] results = null;
        
-       Integer i = 1;
-       Integer j = 1;       
-       for(Quote q : quotes)
+       results = [SELECT COUNT(Id) sum, 
+                         Forma_de_pago__c fpago 
+                    FROM Quote 
+                   WHERE OpportunityId IN (
+                                           SELECT Id 
+                                             FROM Opportunity 
+                                            WHERE Owner.Id IN :idEjecutivos
+                                              AND Tipo_contacto__c IN :tiposProducto
+                                              AND Fecha_de_Venta__c >= :fechaInicio
+                                              AND Fecha_de_Venta__c <= :fechaFin
+                                              AND Stagename = :estadoOportunidad)
+                     AND IsSyncing = true
+                GROUP BY Forma_de_pago__c];
+
+       for (AggregateResult ar : results) 
        {
-           idOpp = oppQuotes.get(q.OpportunityId);
-           if(idOpp == null)
-           {
-               oppQuotes.put(q.OpportunityId, q.Id);
-               if(q.Forma_de_pago__c == 'Contado')
-               {
-                  ventasCash += 1;
-                  System.debug(' [' + i + '] [' + q.OpportunityId + '] [' + ventasCash + '] [' + ventasFs + ']');  
-                  i++;
-               }
-               else
-               {
-                  ventasFs += 1;
-               }
-           }
-           j++;
+         numVentas = (Integer)ar.get('sum');
+         formaPago = (String)ar.get('fpago');
+         if(formaPago.equals('Contado'))
+         {
+            ventasCash = numVentas;
+         }
+         else
+         {
+           ventasFs = ventasFs + numVentas;
+         }
        }
 
        System.debug('CASH FS c[' + ventasCash + '] f[' + ventasFs + ']');
@@ -710,9 +711,9 @@ public class PerfectaDAO
                          COUNT(Id) countN 
                     FROM Opportunity  
                    WHERE Owner.Id = :idEjecutivos
-                     AND Stagename = :estadoOportunidad
-                     AND Closedate >= :fechaIni
-                     AND Closedate <= :fechaFin
+                     //AND Stagename = :estadoOportunidad
+                     AND DAY_ONLY(convertTimeZone(CreatedDate)) >= :fechaIni
+                     AND DAY_ONLY(convertTimeZone(CreatedDate)) <= :fechaFin
                      AND Tipo_contacto__c IN :tiposProducto
                 GROUP BY LeadSource];
 
@@ -721,7 +722,6 @@ public class PerfectaDAO
           //System.debug(ar.get('idus')+'-'+ar.get('nameus')+'-'+ar.get('countN'));
           opps.put((String)ar.get('leadsrc'), (Integer)ar.get('countN'));
        }
-       
        return opps;
     }
 
